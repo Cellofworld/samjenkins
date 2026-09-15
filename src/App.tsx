@@ -70,11 +70,11 @@ function App() {
   const progress = Math.round((completedLessons.length / totalLessons) * 100);
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 flex">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex">
       {/* Mobile menu button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800 rounded-lg border border-gray-700"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-lg border border-slate-200 shadow-sm"
       >
         {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
