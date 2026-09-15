@@ -21,10 +21,13 @@ export interface Module {
 }
 
 export const courseModules: Module[] = [
+  // ═══════════════════════════════════════════
+  // МОДУЛЬ 1: Введение в CI/CD и Jenkins
+  // ═══════════════════════════════════════════
   {
     id: "module-1",
     title: "Введение в CI/CD и Jenkins",
-    description: "Основы непрерывной интеграции и доставки. Что такое Jenkins и зачем он нужен.",
+    description: "Основы непрерывной интеграции и доставки",
     icon: "🚀",
     lessons: [
       {
@@ -121,13 +124,68 @@ export const courseModules: Module[] = [
           "Workspace — рабочая директория для каждой сборки",
           "Queue — очередь заданий, ожидающих выполнения"
         ]
+      },
+      {
+        id: "lesson-1-3",
+        title: "Jenkins vs альтернативы",
+        description: "Сравнение Jenkins с GitLab CI, GitHub Actions, CircleCI",
+        theory: [
+          "Jenkins — самый зрелый и гибкий инструмент CI/CD. Его главные преимущества: полностью бесплатный (open-source), огромное сообщество, 1800+ плагинов, полная кастомизация, поддержка любого сценария.",
+          "GitLab CI/CD — встроен в GitLab, конфигурируется через .gitlab-ci.yml. Плюсы: тесная интеграция с GitLab, простой синтаксис, встроенный Container Registry. Минусы: привязка к GitLab, меньше гибкости.",
+          "GitHub Actions — встроен в GitHub, YAML-конфигурация в .github/workflows/. Плюсы: marketplace с готовыми actions, тесная интеграция с GitHub. Минусы: привязка к GitHub, лимиты на бесплатном тарифе.",
+          "CircleCI — облачный сервис с хорошей производительностью. Плюсы: быстрая сборка, удобный UI, кеширование. Минусы: платный для больших команд, менее гибкий.",
+          "Когда выбрать Jenkins: нужна полная кастомизация, on-premise развёртывание, сложные пайплайны, интеграция с множеством инструментов, нет привязки к конкретному Git-хостингу.",
+          "Когда выбрать альтернативы: простой CI/CD, команда уже использует GitLab/GitHub, не нужна сложная кастомизация, важна скорость настройки."
+        ],
+        codeExamples: [
+          {
+            title: "Сравнение синтаксиса CI/CD",
+            language: "text",
+            code: `═══════════════════════════════════════════════════════════════
+                    СРАВНЕНИЕ ИНСТРУМЕНТОВ CI/CD
+═══════════════════════════════════════════════════════════════
+
+┌──────────────┬──────────┬──────────┬──────────┬──────────┐
+│ Критерий     │ Jenkins  │ GitLab   │ GitHub   │ CircleCI │
+│              │          │ CI       │ Actions  │          │
+├──────────────┼──────────┼──────────┼──────────┼──────────┤
+│ Стоимость    │ Free     │ Free*    │ Free*    │ Paid     │
+│ Хостинг      │ On-prem  │ SaaS     │ SaaS     │ SaaS     │
+│ Плагины      │ 1800+    │ -        │ 10000+   │ Limited  │
+│ Гибкость     │ ★★★★★   │ ★★★☆☆   │ ★★★★☆   │ ★★★☆☆   │
+│ Простота     │ ★★☆☆☆   │ ★★★★☆   │ ★★★★☆   │ ★★★★☆   │
+│ On-premise   │ ✅       │ ✅       │ ❌       │ ❌       │
+│ Pipeline     │ Groovy   │ YAML     │ YAML     │ YAML     │
+│ Кастомизация │ ★★★★★   │ ★★★☆☆   │ ★★★★☆   │ ★★☆☆☆   │
+└──────────────┴──────────┴──────────┴──────────┴──────────┘
+
+* — бесплатные тарифы с ограничениями`
+          }
+        ],
+        practice: [
+          {
+            task: "Вашей компании нужно CI/CD решение. Условия: on-premise, интеграция с 15+ инструментами, сложные multi-branch пайплайны, бюджет ограничен. Какой инструмент вы выберете и почему?",
+            hint: "Подумайте о стоимости, гибкости и возможности on-premise развёртывания.",
+            solution: "Jenkins — единственный инструмент, который одновременно: 1) Бесплатный (open-source), 2) Поддерживает on-premise, 3) Имеет 1800+ плагинов для интеграции с любыми инструментами, 4) Поддерживает сложные multi-branch пайплайны через Declarative Pipeline. Альтернативы либо платные (CircleCI), либо не поддерживают on-premise (GitHub Actions), либо менее гибкие (GitLab CI)."
+          }
+        ],
+        keyPoints: [
+          "Jenkins — самый гибкий и бесплатный инструмент",
+          "GitLab CI — простота, но привязка к GitLab",
+          "GitHub Actions — marketplace actions, но SaaS only",
+          "Выбор зависит от требований: on-premise, бюджет, сложность",
+          "Jenkins идеален для enterprise и сложных сценариев"
+        ]
       }
     ]
   },
+  // ═══════════════════════════════════════════
+  // МОДУЛЬ 2: Установка и настройка
+  // ═══════════════════════════════════════════
   {
     id: "module-2",
     title: "Установка и настройка Jenkins",
-    description: "Установка Jenkins, первичная настройка и конфигурация",
+    description: "Установка, настройка и конфигурация Jenkins",
     icon: "⚙️",
     lessons: [
       {
@@ -157,7 +215,7 @@ docker run -d \\
 # Получение начального пароля
 docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 
-# Jenkins с Docker-in-Docker (для сборки Docker образов)
+# Jenkins с Docker-in-Docker
 docker run -d \\
   --name jenkins-docker \\
   --privileged \\
@@ -173,33 +231,9 @@ docker run -d \\
   -p 8080:8080 \\
   -p 50000:50000 \\
   -e DOCKER_HOST=tcp://jenkins-docker:2376 \\
-  -e DOCKER_CERT_PATH=/certs/client \\
-  -e DOCKER_TLS_VERIFY=1 \\
   -v jenkins-data:/var/jenkins_home \\
   -v /certs/client:/certs/client:ro \\
   jenkins/jenkins:lts`
-          },
-          {
-            title: "Установка Jenkins на Ubuntu/Debian",
-            language: "bash",
-            code: `# Добавление ключа и репозитория
-curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee \\
-  /usr/share/keyrings/jenkins-keyring.asc > /dev/null
-
-echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \\
-  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \\
-  /etc/apt/sources.list.d/jenkins.list > /dev/null
-
-# Установка
-sudo apt-get update
-sudo apt-get install jenkins
-
-# Запуск и проверка статуса
-sudo systemctl start jenkins
-sudo systemctl status jenkins
-
-# Получение начального пароля
-sudo cat /var/lib/jenkins/secrets/initialAdminPassword`
           },
           {
             title: "Docker Compose для Jenkins",
@@ -240,38 +274,17 @@ volumes:
       },
       {
         id: "lesson-2-2",
-        title: "Первичная настройка",
-        description: "Настройка плагинов, пользователей и глобальных параметров",
+        title: "Первичная настройка и JCasC",
+        description: "Настройка плагинов, пользователей, Configuration as Code",
         theory: [
           "После первого входа в Jenkins необходимо установить плагины. Рекомендуемый набор включает: Git, Pipeline, Docker Pipeline, Credentials, Blue Ocean, Email Extension.",
           "Система прав доступа в Jenkins: по умолчанию все пользователи имеют полный доступ. Для продакшна рекомендуется настроить матрицу прав через плагин Role-Based Authorization Strategy.",
-          "Credentials (учётные данные) — безопасное хранение паролей, SSH-ключей, API-токенов. Jenkins шифрует credentials и предоставляет их только во время выполнения задач.",
+          "JCasC (Jenkins Configuration as Code) — подход, при котором вся конфигурация Jenkins описывается в YAML-файлах. Это позволяет версионировать конфигурацию, воспроизводить окружения и автоматизировать настройку.",
           "Global Tool Configuration — настройка путей к инструментам (JDK, Maven, Gradle, Node.js, Git). Jenkins может автоматически устанавливать инструменты при необходимости.",
           "System Configuration — настройка количества потоков (executors), URL Jenkins, email-уведомлений, прокси.",
           "Manage Jenkins → Configure System — основная страница настроек. Здесь настраивается большинство глобальных параметров."
         ],
         codeExamples: [
-          {
-            title: "Основные плагины для DevOps",
-            language: "text",
-            code: `Обязательные плагины для DevOps:
-
-📦 Pipeline              — DSL для описания пайплайнов
-📦 Git                   — интеграция с Git
-📦 Docker Pipeline       — сборка Docker образов в пайплайне
-📦 Credentials           — безопасное хранение секретов
-📦 Blue Ocean            — современный UI для пайплайнов
-📦 Email Extension       — расширенные email-уведомления
-📦 Slack Notification    — уведомления в Slack
-📦 Kubernetes            — динамические агенты в K8s
-📦 Job DSL               — конфигурация как код (Jobs)
-📦 Configuration as Code — конфигурация Jenkins как код
-
-Установка через CLI:
-jenkins-plugin-cli --plugins \\
-  workflow-aggregator git docker-workflow \\
-  credentials blueOcean email-ext kubernetes`
-          },
           {
             title: "Jenkins Configuration as Code (JCasC)",
             language: "yaml",
@@ -318,8 +331,8 @@ tool:
         ],
         practice: [
           {
-            task: "Настройте Jenkins с помощью JCasC (Configuration as Code). Создайте конфигурацию с двумя ролями: admin и developer.",
-            hint: "Используйте YAML-формат. Роли определяются в разделе authorizationStrategy.",
+            task: "Настройте Jenkins с помощью JCasC. Создайте конфигурацию с двумя ролями: admin (полный доступ) и developer (только сборка и чтение).",
+            hint: "Используйте YAML-формат. Роли определяются в разделе authorizationStrategy.roleBased.roles.",
             solution: `jenkins:
   systemMessage: "DevOps Jenkins"
   numExecutors: 0
@@ -356,26 +369,172 @@ tool:
           "Global Tool Configuration — автоматическая установка инструментов",
           "Плагины расширяют функциональность Jenkins"
         ]
+      },
+      {
+        id: "lesson-2-3",
+        title: "Настройка агентов",
+        description: "Подключение и настройка Jenkins агентов",
+        theory: [
+          "Jenkins агенты (nodes) — это машины, которые выполняют задачи по указанию контроллера. Они позволяют распределить нагрузку и выполнять сборки на разных платформах.",
+          "Существует два способа подключения агентов: JNLP (Java Network Launch Protocol) — агент подключается к контроллеру, и SSH — контроллер подключается к агенту по SSH.",
+          "JNLP-агенты работают как Java-процесс на целевой машине. Они сами инициируют подключение к контроллеру. Это удобно для машин за NAT или firewall.",
+          "SSH-агенты требуют настройки SSH-доступа от контроллера к агенту. Контроллер подключается по SSH для выполнения задач. Это проще в настройке, но требует открытого SSH-порта.",
+          "Labels (метки) — теги, которые назначаются агентам. Пайплайны могут указывать, на каком агенте (по метке) выполняться. Например, 'docker', 'linux', 'windows', 'gpu'.",
+          "Executors — количество одновременных задач, которые может выполнять агент. Рекомендуется: 2-4 для обычных агентов, 0 для контроллера (чтобы не нагружать его)."
+        ],
+        codeExamples: [
+          {
+            title: "Настройка JNLP-агента",
+            language: "bash",
+            code: `# 1. В Jenkins UI: Manage Jenkins → Nodes → New Node
+#    Имя: agent-1, Type: Permanent Agent
+
+# 2. Настройка агента:
+#    Remote root directory: /home/jenkins/agent
+#    Labels: linux docker java
+#    Usage: Use this node as much as possible
+#    Launch method: Launch agent via JNLP
+
+# 3. Запуск агента на целевой машине:
+#    Скопируйте команду из Jenkins UI
+
+java -jar agent.jar \\
+  -jnlpUrl http://jenkins:8080/computer/agent-1/jenkins-agent.jnlp \\
+  -secret <secret-token> \\
+  -workDir /home/jenkins/agent
+
+# Запуск в фоне (systemd):
+# /etc/systemd/system/jenkins-agent.service
+[Unit]
+Description=Jenkins Agent
+After=network.target
+
+[Service]
+Type=simple
+User=jenkins
+ExecStart=/usr/bin/java -jar /home/jenkins/agent/agent.jar \\
+  -jnlpUrl http://jenkins:8080/computer/agent-1/jenkins-agent.jnlp \\
+  -secret <secret-token> \\
+  -workDir /home/jenkins/agent
+Restart=always
+
+[Install]
+WantedBy=multi-user.target`
+          },
+          {
+            title: "Pipeline с указанием агента по label",
+            language: "groovy",
+            code: `// Использование конкретного агента по label
+pipeline {
+    agent { label 'docker && linux' }
+    
+    stages {
+        stage('Build') {
+            steps {
+                sh 'docker build -t myapp .'
+            }
+        }
+    }
+}
+
+// Разные stages на разных агентах
+pipeline {
+    agent none
+    
+    stages {
+        stage('Build on Linux') {
+            agent { label 'linux' }
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Test on Windows') {
+            agent { label 'windows' }
+            steps {
+                bat 'mvn test'
+            }
+        }
+        stage('Deploy') {
+            agent { label 'deploy' }
+            steps {
+                sh './deploy.sh'
+            }
+        }
+    }
+}`
+          }
+        ],
+        practice: [
+          {
+            task: "Опишите, как настроить 3 агента: linux-builder (для сборки), windows-tester (для тестов на Windows), deploy-agent (для деплоя). Какие labels назначите каждому?",
+            hint: "Подумайте о разделении обязанностей и безопасности. Каждый агент должен иметь специфичные labels.",
+            solution: `1. linux-builder:
+   - Labels: linux, builder, java, docker
+   - Executors: 4
+   - Usage: Only for tied jobs
+   - Purpose: компиляция, сборка Docker образов
+
+2. windows-tester:
+   - Labels: windows, tester, dotnet
+   - Executors: 2
+   - Usage: Only for tied jobs
+   - Purpose: запуск .NET тестов, UI тестов
+
+3. deploy-agent:
+   - Labels: deploy, production, secure
+   - Executors: 1
+   - Usage: Only for tied jobs
+   - Purpose: деплой (имеет доступ к продакшн credentials)
+
+pipeline {
+    agent none
+    stages {
+        stage('Build') {
+            agent { label 'linux-builder' }
+            steps { sh 'mvn clean package' }
+        }
+        stage('Test') {
+            agent { label 'windows-tester' }
+            steps { bat 'dotnet test' }
+        }
+        stage('Deploy') {
+            agent { label 'deploy-agent' }
+            steps { sh './deploy.sh production' }
+        }
+    }
+}`
+          }
+        ],
+        keyPoints: [
+          "JNLP — агент подключается к контроллеру (удобно за NAT)",
+          "SSH — контроллер подключается к агенту (проще настроить)",
+          "Labels — теги для выбора подходящего агента",
+          "Executors — количество одновременных задач на агенте",
+          "Controller должен иметь 0 executors (не нагружать)"
+        ]
       }
     ]
   },
+  // ═══════════════════════════════════════════
+  // МОДУЛЬ 3: Первый пайплайн
+  // ═══════════════════════════════════════════
   {
     id: "module-3",
     title: "Первый пайплайн",
-    description: "Создание первого Jenkins Pipeline, основы синтаксиса",
+    description: "Создание Pipeline, основы синтаксиса, работа с Git",
     icon: "📝",
     lessons: [
       {
         id: "lesson-3-1",
-        title: "Создание Pipeline",
-        description: "Declarative и Scripted Pipeline, первый Jenkinsfile",
+        title: "Declarative Pipeline",
+        description: "Основы синтаксиса Declarative Pipeline",
         theory: [
           "Jenkins Pipeline — это набор инструкций для автоматизации процесса доставки ПО. Пайплайн описывается в файле Jenkinsfile с использованием Groovy-синтаксиса.",
-          "Существует два синтаксиса Pipeline: Declarative (более структурированный, рекомендуемый) и Scripted (более гибкий, но сложный). Declarative Pipeline был введён позже и является рекомендуемым подходом.",
+          "Declarative Pipeline — более структурированный и рекомендуемый синтаксис. Он строже, но проще для чтения и написания. Ошибки в синтаксисе обнаруживаются раньше.",
           "Основные блоки Declarative Pipeline: pipeline { }, agent { }, stages { }, stage('Name') { }, steps { }. Каждый stage представляет этап пайплайна (сборка, тест, деплой).",
           "agent определяет, где будет выполняться пайплайн. Варианты: any (любой доступный агент), none (без агента), label (конкретный агент), docker (в контейнере).",
           "steps — это команды, которые выполняются на каждом этапе. Основные директивы: sh (выполнение shell-команд), echo (вывод сообщения), script (вставка Scripted-блока).",
-          "Jenkinsfile можно хранить в корне репозитория (Multibranch Pipeline) или создать прямо в Jenkins (Pipeline job). Первый подход предпочтительнее — Pipeline as Code."
+          "post { } — блок, выполняемый после завершения всех stages. Секции: always (всегда), success (при успехе), failure (при ошибке), unstable (при нестабильном результате), changed (при изменении статуса)."
         ],
         codeExamples: [
           {
@@ -411,10 +570,10 @@ pipeline {
             echo 'Пайплайн завершён!'
         }
         success {
-            echo 'Пайплайн успешен!'
+            echo '✅ Пайплайн успешен!'
         }
         failure {
-            echo 'Пайплайн провален!'
+            echo '❌ Пайплайн провален!'
         }
     }
 }`
@@ -443,15 +602,6 @@ pipeline {
             steps {
                 sh """
                     echo "Сборка \${APP_NAME} v\${VERSION}"
-                    # mvn clean package -DskipTests
-                """
-            }
-        }
-        stage('Test') {
-            steps {
-                sh """
-                    echo "Запуск тестов для \${APP_NAME}"
-                    # mvn test
                 """
             }
         }
@@ -465,54 +615,11 @@ pipeline {
         }
     }
 }`
-          },
-          {
-            title: "Pipeline с условиями и параллельными задачами",
-            language: "groovy",
-            code: `pipeline {
-    agent any
-
-    stages {
-        stage('Build & Lint') {
-            parallel {
-                stage('Build') {
-                    steps {
-                        sh 'echo "Building..."'
-                    }
-                }
-                stage('Lint') {
-                    steps {
-                        sh 'echo "Linting..."'
-                    }
-                }
-            }
-        }
-        stage('Test') {
-            when {
-                branch 'main'
-            }
-            steps {
-                sh 'echo "Running tests on main branch"'
-            }
-        }
-        stage('Deploy') {
-            when {
-                allOf {
-                    branch 'main'
-                    expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
-                }
-            }
-            steps {
-                sh 'echo "Deploying to production"'
-            }
-        }
-    }
-}`
           }
         ],
         practice: [
           {
-            task: "Создайте Jenkinsfile для Node.js проекта с этапами: Install dependencies, Lint, Test, Build. Добавьте post-блок с уведомлениями об успехе/неудаче.",
+            task: "Создайте Jenkinsfile для Node.js проекта с этапами: Install, Lint, Test, Build. Добавьте post-блок с уведомлениями об успехе/неудаче.",
             hint: "Используйте sh 'npm install', sh 'npm run lint' и т.д. В post-блоке используйте success {} и failure {}.",
             solution: `pipeline {
     agent any
@@ -522,56 +629,175 @@ pipeline {
     }
 
     stages {
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm ci'
-            }
+        stage('Install') {
+            steps { sh 'npm ci' }
         }
         stage('Lint') {
-            steps {
-                sh 'npm run lint'
-            }
+            steps { sh 'npm run lint' }
         }
         stage('Test') {
-            steps {
-                sh 'npm test'
-            }
+            steps { sh 'npm test' }
         }
         stage('Build') {
-            steps {
-                sh 'npm run build'
-            }
+            steps { sh 'npm run build' }
         }
     }
 
     post {
         always {
-            sh 'echo "Pipeline finished"'
+            echo "Pipeline finished"
             cleanWs()
         }
         success {
-            sh 'echo "✅ Build successful!"'
+            echo "✅ Build successful!"
         }
         failure {
-            sh 'echo "❌ Build failed!"'
+            echo "❌ Build failed!"
         }
     }
 }`
           }
         ],
         keyPoints: [
-          "Declarative Pipeline — рекомендуемый синтаксис",
           "pipeline { } — корневой блок",
           "agent — где выполнять (any, docker, label)",
           "stages/stage/steps — структура пайплайна",
           "environment { } — переменные окружения",
           "post { } — действия после завершения",
-          "when { } — условия выполнения stage",
-          "parallel { } — параллельное выполнение"
+          "when { } — условия выполнения stage"
         ]
       },
       {
         id: "lesson-3-2",
+        title: "Триггеры и расписания",
+        description: "Автоматический запуск пайплайнов",
+        theory: [
+          "Triggers — механизмы автоматического запуска пайплайна. Jenkins поддерживает несколько типов триггеров: polling (опрос репозитория), webhook (уведомление от Git), cron (по расписанию), upstream (после другого пайплайна).",
+          "Polling SCM — Jenkins периодически опрашивает репозиторий на наличие новых коммитов. Настраивается через cron-синтаксис (H/5 * * * * — каждые 5 минут). Неэффективно для больших репозиториев.",
+          "Webhook — Git-сервер (GitHub, GitLab) уведомляет Jenkins о новых коммитах через HTTP-запрос. Мгновенный запуск, без задержек. Рекомендуемый подход.",
+          "Cron-триггер — запуск по расписанию, например, ночные сборки (H 2 * * * — каждый день в 2:00). Полезно для длительных тестов, отчётов, обслуживания.",
+          "Upstream triggers — запуск пайплайна после завершения другого. Используется для цепочек: build → test → deploy. Настраивается через build job: 'other-job' в post-блоке.",
+          "H (Hash) в cron-выражениях — Jenkins распределяет нагрузки, добавляя случайное смещение. H/15 * * * * означает 'примерно каждые 15 минут', но не все одновременно."
+        ],
+        codeExamples: [
+          {
+            title: "Триггеры в Pipeline",
+            language: "groovy",
+            code: `pipeline {
+    agent any
+
+    triggers {
+        // Опрос Git каждые 15 минут
+        pollSCM('H/15 * * * *')
+
+        // Ночная сборка в 2:00
+        cron('H 2 * * *')
+
+        // Запуск после другого job
+        upstream(
+            upstreamProjects: 'build-job, lint-job',
+            threshold: hudson.model.Result.SUCCESS
+        )
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'echo "Triggered!"'
+            }
+        }
+    }
+}
+
+// Webhook URL для GitHub:
+// http://jenkins:8080/github-webhook/
+//
+// Webhook URL для GitLab:
+// http://jenkins:8080/project/my-pipeline
+//
+// Generic Webhook (плагин Generic Webhook Trigger):
+// http://jenkins:8080/generic-webhook-trigger/invoke?token=xxx`
+          },
+          {
+            title: "Cron-синтаксис Jenkins",
+            language: "text",
+            code: `┌───────────── минута (0-59)
+│ ┌───────────── час (0-23)
+│ │ ┌───────────── день месяца (1-31)
+│ │ │ ┌───────────── месяц (1-12)
+│ │ │ │ ┌───────────── день недели (0-7, 0 и 7 = воскресенье)
+│ │ │ │ │
+* * * * *
+
+Специальные символы:
+  H    — Hash (случайное, но стабильное значение)
+  *    — любое значение
+  ,    — список значений (1,3,5)
+  -    — диапазон (1-5)
+  /    — шаг (H/15 = каждые ~15 минут)
+
+Примеры:
+  H/5 * * * *        — каждые ~5 минут
+  H 2 * * *          — каждый день в ~2:00
+  H 2 * * 1-5        — будни в ~2:00
+  0 0 1 * *          — первый день месяца в полночь
+  H/30 9-17 * * 1-5  — каждые ~30 мин в рабочее время
+  H 8,12,18 * * *    — в 8:00, 12:00 и 18:00`
+          }
+        ],
+        practice: [
+          {
+            task: "Настройте пайплайн с тремя триггерами: 1) webhook от GitHub, 2) ночная сборка в 3:00 по будням, 3) запуск после успешного завершения job 'build-base'.",
+            hint: "Используйте triggers { } блок. Для webhook настройте URL в GitHub. Для cron используйте H 3 * * 1-5.",
+            solution: `pipeline {
+    agent any
+
+    triggers {
+        // Ночная сборка по будням в ~3:00
+        cron('H 3 * * 1-5')
+
+        // Запуск после build-base
+        upstream(
+            upstreamProjects: 'build-base',
+            threshold: hudson.model.Result.SUCCESS
+        )
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'npm ci && npm run build'
+            }
+        }
+        stage('Nightly Tests') {
+            when {
+                triggeredBy 'TimerTrigger'
+            }
+            steps {
+                sh 'npm run test:full'
+            }
+        }
+    }
+}
+
+// Для GitHub webhook:
+// 1. GitHub → Settings → Webhooks → Add webhook
+// 2. Payload URL: http://jenkins:8080/github-webhook/
+// 3. Content type: application/json
+// 4. Events: Just the push event`
+          }
+        ],
+        keyPoints: [
+          "pollSCM — опрос репозитория (неэффективно)",
+          "Webhook — мгновенный запуск (рекомендуется)",
+          "cron — запуск по расписанию",
+          "upstream — цепочки пайплайнов",
+          "H (Hash) — распределение нагрузки",
+          "triggeredBy — определение типа триггера"
+        ]
+      },
+      {
+        id: "lesson-3-3",
         title: "Работа с Git в Jenkins",
         description: "Интеграция с Git, Multibranch Pipeline, webhooks",
         theory: [
@@ -583,64 +809,6 @@ pipeline {
           "Credentials для Git: Jenkins хранит учётные данные (username/password, SSH-ключи, API-токены) в зашифрованном виде и подставляет их при клонировании репозитория."
         ],
         codeExamples: [
-          {
-            title: "Настройка webhook для GitHub",
-            language: "text",
-            code: `Настройка GitHub Webhook:
-
-1. GitHub Repository → Settings → Webhooks → Add webhook
-
-2. Параметры:
-   Payload URL: http://your-jenkins:8080/github-webhook/
-   Content type: application/json
-   Secret: (оставьте пустым или укажите)
-   Events: Just the push event
-
-3. В Jenkins:
-   - Создайте Multibranch Pipeline
-   - Branch Sources → Add source → GitHub
-   - Укажите репозиторий
-   - Укажите credentials (GitHub token)
-   
-4. Для проверки webhook:
-   GitHub → Settings → Webhooks → выберите webhook
-   Должен быть зелёный чекмарк ✓`
-          },
-          {
-            title: "Jenkinsfile с Git operations",
-            language: "groovy",
-            code: `pipeline {
-    agent any
-
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-                // Или явное указание:
-                // git branch: 'main',
-                //     url: 'https://github.com/org/repo.git',
-                //     credentialsId: 'github-token'
-            }
-        }
-        stage('Get Changes') {
-            steps {
-                script {
-                    def changeLog = sh(
-                        script: 'git log --oneline -5',
-                        returnStdout: true
-                    ).trim()
-                    echo "Последние изменения:\\n\${changeLog}"
-                }
-            }
-        }
-        stage('Build') {
-            steps {
-                sh 'npm ci && npm run build'
-            }
-        }
-    }
-}`
-          },
           {
             title: "Jenkinsfile для Multibranch с разными ветками",
             language: "groovy",
@@ -736,16 +904,19 @@ pipeline {
       }
     ]
   },
+  // ═══════════════════════════════════════════
+  // МОДУЛЬ 4: Docker и Jenkins
+  // ═══════════════════════════════════════════
   {
     id: "module-4",
     title: "Docker и Jenkins",
-    description: "Сборка Docker образов, Docker-in-Docker, Docker Pipeline",
+    description: "Сборка Docker образов, Docker agents, Docker Compose",
     icon: "🐳",
     lessons: [
       {
         id: "lesson-4-1",
         title: "Docker Pipeline",
-        description: "Сборка Docker образов в Jenkins, Docker agents",
+        description: "Сборка Docker образов и Docker agents",
         theory: [
           "Docker Pipeline плагин позволяет собирать Docker-образы и запускать контейнеры прямо в Jenkins Pipeline. Это основа современного CI/CD — каждый билд происходит в изолированном окружении.",
           "docker.build() — директива для сборки Docker-образа. docker.image().inside() — запуск команд внутри контейнера. docker.image().push() — публикация образа в реестр.",
@@ -755,69 +926,6 @@ pipeline {
           "Best practice: использовать multi-stage builds в Dockerfile для уменьшения размера финального образа и разделения зависимостей сборки от runtime."
         ],
         codeExamples: [
-          {
-            title: "Pipeline с Docker агентом",
-            language: "groovy",
-            code: `// Пайплайн с Docker-агентом
-pipeline {
-    agent {
-        docker {
-            image 'node:18-alpine'
-            label 'docker'
-        }
-    }
-
-    stages {
-        stage('Install') {
-            steps {
-                sh 'npm ci'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'npm test'
-            }
-        }
-        stage('Build') {
-            steps {
-                sh 'npm run build'
-            }
-        }
-    }
-}
-
-// Разные Docker-образы для разных stages
-pipeline {
-    agent none
-
-    stages {
-        stage('Build') {
-            agent { docker { image 'maven:3.9-eclipse-temurin-17' } }
-            steps {
-                sh 'mvn clean package'
-            }
-        }
-        stage('Test') {
-            agent { docker { image 'maven:3.9-eclipse-temurin-17' } }
-            steps {
-                sh 'mvn test'
-            }
-        }
-        stage('Docker Build & Push') {
-            agent { docker { image 'docker:24-dind' } }
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                        def app = docker.build("myapp:\${env.BUILD_NUMBER}")
-                        app.push()
-                        app.push('latest')
-                    }
-                }
-            }
-        }
-    }
-}`
-          },
           {
             title: "Сборка и пуш Docker образа",
             language: "groovy",
@@ -834,7 +942,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def dockerImage = docker.build(
+                    docker.build(
                         "\${REGISTRY}/\${IMAGE_NAME}:\${env.BUILD_NUMBER}",
                         "--build-arg VERSION=\${env.BUILD_NUMBER} ."
                     )
@@ -844,7 +952,10 @@ pipeline {
         stage('Push to Registry') {
             steps {
                 script {
-                    docker.withRegistry("https://\${REGISTRY}", "\${DOCKER_CREDENTIALS}") {
+                    docker.withRegistry(
+                        "https://\${REGISTRY}",
+                        "\${DOCKER_CREDENTIALS}"
+                    ) {
                         def builtImage = docker.image(
                             "\${REGISTRY}/\${IMAGE_NAME}:\${env.BUILD_NUMBER}"
                         )
@@ -854,11 +965,6 @@ pipeline {
                 }
             }
         }
-        stage('Cleanup') {
-            steps {
-                sh "docker rmi \${REGISTRY}/\${IMAGE_NAME}:\${env.BUILD_NUMBER} || true"
-            }
-        }
     }
 }`
           },
@@ -866,7 +972,6 @@ pipeline {
             title: "Dockerfile для Node.js приложения",
             language: "dockerfile",
             code: `# Multi-stage build
-# Stage 1: Build
 FROM node:18-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
@@ -874,7 +979,6 @@ RUN npm ci --only=production
 COPY . .
 RUN npm run build
 
-# Stage 2: Production
 FROM node:18-alpine AS production
 WORKDIR /app
 RUN addgroup -g 1001 -S appgroup && \\
@@ -885,14 +989,15 @@ COPY --from=builder /app/package.json ./
 USER appuser
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s \\
-  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
+  CMD wget --no-verbose --tries=1 --spider \\
+    http://localhost:3000/health || exit 1
 CMD ["node", "dist/index.js"]`
           }
         ],
         practice: [
           {
             task: "Создайте Pipeline, который: 1) Собирает Docker-образ с тегом из номера сборки, 2) Сканирует образ на уязвимости (trivy), 3) Пушит образ в registry, если сканирование пройдено.",
-            hint: "Используйте sh 'trivy image' для сканирования и when { } для условного пуша.",
+            hint: "Используйте sh 'trivy image' для сканирования. Если trivy завершится с ошибкой, stage провалится и пуш не выполнится.",
             solution: `pipeline {
     agent any
 
@@ -925,8 +1030,13 @@ CMD ["node", "dist/index.js"]`
         stage('Push to Registry') {
             steps {
                 script {
-                    docker.withRegistry("https://\${REGISTRY}", 'registry-creds') {
-                        def img = docker.image("\${REGISTRY}/\${IMAGE_NAME}:\${IMAGE_TAG}")
+                    docker.withRegistry(
+                        "https://\${REGISTRY}",
+                        'registry-creds'
+                    ) {
+                        def img = docker.image(
+                            "\${REGISTRY}/\${IMAGE_NAME}:\${IMAGE_TAG}"
+                        )
                         img.push()
                         img.push('latest')
                     }
@@ -948,20 +1058,379 @@ CMD ["node", "dist/index.js"]`
           "docker.build() — сборка образа",
           "docker.withRegistry() — авторизация в реестре",
           "Multi-stage builds — уменьшение размера образа",
-          "Безопасность: сканирование образов перед пушем",
-          "DinD vs DooD — выбор подхода"
+          "Безопасность: сканирование образов перед пушем"
+        ]
+      },
+      {
+        id: "lesson-4-2",
+        title: "Docker Compose в пайплайнах",
+        description: "Интеграционные тесты с Docker Compose",
+        theory: [
+          "Docker Compose позволяет запускать многоконтейнерные приложения. В Jenkins это используется для интеграционных тестов: база данных, кеш, очереди — всё поднимается в контейнерах.",
+          "Типичный сценарий: пайплайн запускает docker-compose up для поднятия зависимостей (PostgreSQL, Redis, Kafka), выполняет тесты, затем docker-compose down для очистки.",
+          "docker-compose.override.yml — файл для переопределения настроек в CI. Например, можно отключить volumes, изменить порты, добавить healthcheck.",
+          "Wait for services — перед запуском тестов нужно дождаться, пока все сервисы готовы. Используются wait-for-it.sh, dockerize или healthcheck в docker-compose.",
+          "Параллельные сборки — при параллельном выполнении пайплайнов на одном агенте могут возникнуть конфликты портов. Решение: динамические порты через переменные окружения.",
+          "Resource limits — ограничение ресурсов для контейнеров в CI, чтобы одна сборка не потребляла все ресурсы агента."
+        ],
+        codeExamples: [
+          {
+            title: "Интеграционные тесты с Docker Compose",
+            language: "groovy",
+            code: `pipeline {
+    agent { label 'docker' }
+
+    stages {
+        stage('Start Services') {
+            steps {
+                sh '''
+                    docker-compose -f docker-compose.yml \\
+                        -f docker-compose.ci.yml up -d
+                    
+                    # Ждём готовности сервисов
+                    echo "Waiting for PostgreSQL..."
+                    timeout 60 bash -c 'until \\
+                        docker-compose exec -T postgres \\
+                        pg_isready; do sleep 2; done'
+                    
+                    echo "Waiting for Redis..."
+                    timeout 30 bash -c 'until \\
+                        docker-compose exec -T redis \\
+                        redis-cli ping; do sleep 2; done'
+                '''
+            }
+        }
+        stage('Integration Tests') {
+            steps {
+                sh '''
+                    export DATABASE_URL=postgresql://test:test@localhost:5432/testdb
+                    export REDIS_URL=redis://localhost:6379
+                    npm run test:integration
+                '''
+            }
+            post {
+                always {
+                    junit 'test-results/integration/*.xml'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker-compose down -v --remove-orphans || true'
+        }
+    }
+}`
+          },
+          {
+            title: "docker-compose.ci.yml",
+            language: "yaml",
+            code: `# Override для CI окружения
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: testdb
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    environment:
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    deploy:
+      resources:
+        limits:
+          memory: 512M`
+          }
+        ],
+        practice: [
+          {
+            task: "Создайте Pipeline для интеграционных тестов: поднимите PostgreSQL и Redis через Docker Compose, дождитесь их готовности, запустите тесты, очистите окружение.",
+            hint: "Используйте healthcheck в docker-compose и цикл ожидания в bash.",
+            solution: `pipeline {
+    agent { label 'docker' }
+
+    stages {
+        stage('Start Services') {
+            steps {
+                sh 'docker-compose -f docker-compose.ci.yml up -d'
+                sh '''
+                    echo "Waiting for PostgreSQL..."
+                    for i in $(seq 1 30); do
+                        if docker-compose exec -T postgres pg_isready 2>/dev/null; then
+                            echo "PostgreSQL is ready!"
+                            break
+                        fi
+                        sleep 2
+                    done
+                '''
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                sh '''
+                    export DB_HOST=localhost
+                    export DB_PORT=5432
+                    npm run test:integration
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker-compose down -v --remove-orphans || true'
+        }
+    }
+}`
+          }
+        ],
+        keyPoints: [
+          "Docker Compose — многоконтейнерные тесты",
+          "Override файлы для CI окружения",
+          "Healthcheck — ожидание готовности сервисов",
+          "Resource limits — контроль ресурсов",
+          "post { always } — очистка после тестов"
         ]
       }
     ]
   },
+  // ═══════════════════════════════════════════
+  // МОДУЛЬ 5: Продвинутые пайплайны
+  // ═══════════════════════════════════════════
   {
     id: "module-5",
     title: "Продвинутые пайплайны",
-    description: "Shared Libraries, параллельное выполнение, матричные сборки",
+    description: "Shared Libraries, параметры, матричные сборки",
     icon: "🔧",
     lessons: [
       {
         id: "lesson-5-1",
+        title: "Параметризация пайплайнов",
+        description: "Параметры, input, условное выполнение",
+        theory: [
+          "Parameters — входные данные для пайплайна. Позволяют запускать один и тот же пайплайн с разными настройками без изменения кода. Параметры задаются в блоке parameters { }.",
+          "Типы параметров: string (строка), booleanParam (true/false), choice (выбор из списка), password (скрытый ввод), text (многострочный текст), file (загрузка файла).",
+          "input step — пауза в пайплайне для ручного подтверждения. Полезно перед деплоем в production. Поддерживает submitter — ограничение по пользователям/группам.",
+          "when { } — условия выполнения stage. Директивы: branch (ветка), environment (переменная), expression (Groovy-выражение), allOf (AND), anyOf (OR), not (NOT).",
+          "Тернарный оператор в Groovy — условные выражения прямо в шагах: def result = condition ? 'value1' : 'value2'.",
+          "Параметры доступны через params.PARAM_NAME или env.PARAM_NAME. Параметры, заданные при запуске, переопределяют значения по умолчанию."
+        ],
+        codeExamples: [
+          {
+            title: "Параметризованный Pipeline",
+            language: "groovy",
+            code: `pipeline {
+    agent any
+
+    parameters {
+        choice(
+            name: 'ENVIRONMENT',
+            choices: ['dev', 'staging', 'production'],
+            description: 'Target environment'
+        )
+        string(
+            name: 'VERSION',
+            defaultValue: 'latest',
+            description: 'Version to deploy'
+        )
+        booleanParam(
+            name: 'RUN_TESTS',
+            defaultValue: true,
+            description: 'Run test suite?'
+        )
+        password(
+            name: 'DEPLOY_TOKEN',
+            description: 'Deployment token'
+        )
+        text(
+            name: 'RELEASE_NOTES',
+            defaultValue: '',
+            description: 'Release notes'
+        )
+    }
+
+    stages {
+        stage('Validate') {
+            steps {
+                script {
+                    echo "Environment: \${params.ENVIRONMENT}"
+                    echo "Version: \${params.VERSION}"
+                    
+                    if (params.ENVIRONMENT == 'production') {
+                        input message: "Deploy \${params.VERSION} to PRODUCTION?",
+                              ok: 'Yes, deploy!',
+                              submitter: 'admin,tech-lead'
+                    }
+                }
+            }
+        }
+        stage('Test') {
+            when {
+                expression { params.RUN_TESTS == true }
+            }
+            steps {
+                sh 'npm test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh "./deploy.sh \${params.ENVIRONMENT} \${params.VERSION}"
+            }
+        }
+    }
+}`
+          },
+          {
+            title: "Условия выполнения stages",
+            language: "groovy",
+            code: `pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps { sh 'npm run build' }
+        }
+
+        // Выполняется только для ветки main
+        stage('Deploy Production') {
+            when { branch 'main' }
+            steps { sh './deploy.sh prod' }
+        }
+
+        // Выполняется если все условия true
+        stage('Full Test Suite') {
+            when {
+                allOf {
+                    branch 'main'
+                    not { triggeredBy 'TimerTrigger' }
+                    expression { params.RUN_TESTS == true }
+                }
+            }
+            steps { sh 'npm run test:full' }
+        }
+
+        // Выполняется если хотя бы одно условие true
+        stage('Special Build') {
+            when {
+                anyOf {
+                    branch 'release/*'
+                    tag pattern: 'v\\d+\\.\\d+\\.\\d+', comparator: 'REGEXP'
+                }
+            }
+            steps { sh 'npm run build:release' }
+        }
+
+        // Сравнение с предыдущим результатом
+        stage('Notify on Status Change') {
+            when {
+                expression {
+                    currentBuild.previousBuild != null &&
+                    currentBuild.result != currentBuild.previousBuild.result
+                }
+            }
+            steps {
+                echo "Status changed! Sending notification..."
+            }
+        }
+    }
+}`
+          }
+        ],
+        practice: [
+          {
+            task: "Создайте параметризованный пайплайн для деплоя: выбор окружения (dev/staging/production), версия, запуск тестов (boolean). Для production — подтверждение от tech-lead.",
+            hint: "Используйте parameters { choice(), string(), booleanParam() } и input с submitter.",
+            solution: `pipeline {
+    agent any
+
+    parameters {
+        choice(
+            name: 'ENV',
+            choices: ['dev', 'staging', 'production'],
+            description: 'Target environment'
+        )
+        string(
+            name: 'VERSION',
+            defaultValue: 'latest',
+            description: 'Version to deploy'
+        )
+        booleanParam(
+            name: 'RUN_TESTS',
+            defaultValue: true,
+            description: 'Run tests before deploy?'
+        )
+    }
+
+    stages {
+        stage('Confirm Production') {
+            when {
+                expression { params.ENV == 'production' }
+            }
+            steps {
+                input message: """
+                    ⚠️ PRODUCTION DEPLOYMENT
+                    Version: \${params.VERSION}
+                    Are you sure?
+                """,
+                ok: 'Deploy to Production',
+                submitter: 'tech-lead,admin'
+            }
+        }
+        stage('Test') {
+            when { expression { params.RUN_TESTS } }
+            steps { sh 'npm test' }
+        }
+        stage('Deploy') {
+            steps {
+                sh "./deploy.sh \${params.ENV} \${params.VERSION}"
+            }
+        }
+    }
+}`
+          }
+        ],
+        keyPoints: [
+          "parameters { } — входные данные пайплайна",
+          "choice, string, booleanParam, password — типы параметров",
+          "input — пауза для ручного подтверждения",
+          "submitter — ограничение по пользователям",
+          "when { } — условия: branch, expression, allOf, anyOf",
+          "params.NAME — доступ к параметрам"
+        ]
+      },
+      {
+        id: "lesson-5-2",
         title: "Shared Libraries",
         description: "Переиспользование кода между пайплайнами",
         theory: [
@@ -1029,12 +1498,11 @@ def call(Map config) {
 }`
           },
           {
-            title: "Использование Shared Library в Jenkinsfile",
+            title: "Использование Shared Library",
             language: "groovy",
             code: `// Подключение библиотеки
 @Library('my-shared-library@v1.2.0') _
 
-// Использование custom steps
 pipeline {
     agent any
 
@@ -1061,36 +1529,24 @@ pipeline {
 
     post {
         failure {
-            notifySlack("❌ Build failed: \${env.JOB_NAME} #\${env.BUILD_NUMBER}")
+            notifySlack("❌ Build failed: \${env.JOB_NAME}")
         }
         success {
             notifySlack("✅ Build succeeded: \${env.JOB_NAME}")
         }
     }
-}
-
-// Или использование полного пайплайна из библиотеки
-standardPipeline(
-    language: 'node',
-    dockerImage: 'my-app',
-    deployEnvs: ['staging', 'production'],
-    slackChannel: '#deployments'
-)`
+}`
           }
         ],
         practice: [
           {
-            task: "Создайте Shared Library функцию notifySlack.groovy, которая отправляет уведомления в Slack с цветовой индикацией (зелёный для успеха, красный для ошибки) и включает информацию о сборке.",
-            hint: "Используйте httpRequest или curl для отправки в Slack webhook. Передавайте color и message.",
+            task: "Создайте Shared Library функцию notifySlack.groovy, которая отправляет уведомления в Slack с цветовой индикацией и информацией о сборке.",
+            hint: "Используйте curl для отправки в Slack webhook. Передавайте color и message.",
             solution: `// vars/notifySlack.groovy
 def call(Map config = [:]) {
     def webhookUrl = config.webhookUrl ?: env.SLACK_WEBHOOK_URL
     def channel = config.channel ?: '#ci-cd'
     def status = config.status ?: (currentBuild.result ?: 'SUCCESS')
-    def jobName = env.JOB_NAME
-    def buildNumber = env.BUILD_NUMBER
-    def buildUrl = env.BUILD_URL
-
     def color = status == 'SUCCESS' ? '#36a64f' : '#ff0000'
     def emoji = status == 'SUCCESS' ? '✅' : '❌'
 
@@ -1099,17 +1555,12 @@ def call(Map config = [:]) {
         "channel": "\${channel}",
         "attachments": [{
             "color": "\${color}",
-            "title": "\${emoji} \${jobName} #\${buildNumber}",
+            "title": "\${emoji} \${env.JOB_NAME} #\${env.BUILD_NUMBER}",
             "text": "Status: \${status}",
             "fields": [
                 {"title": "Branch", "value": "\${env.BRANCH_NAME ?: 'N/A'}", "short": true},
                 {"title": "Duration", "value": "\${currentBuild.durationString}", "short": true}
-            ],
-            "actions": [{
-                "type": "button",
-                "text": "View Build",
-                "url": "\${buildUrl}"
-            }]
+            ]
         }]
     }
     """
@@ -1127,14 +1578,13 @@ def call(Map config = [:]) {
           "vars/ — глобальные функции (custom steps)",
           "src/ — Groovy-классы",
           "@Library('name@version') — подключение",
-          "Версионирование обеспечивает стабильность",
-          "Позволяет стандартизировать пайплайны в организации"
+          "Версионирование обеспечивает стабильность"
         ]
       },
       {
-        id: "lesson-5-2",
-        title: "Матричные сборки и параллелизм",
-        description: "Matrix builds, параллельное выполнение, оптимизация",
+        id: "lesson-5-3",
+        title: "Матричные сборки",
+        description: "Matrix builds, параллельное выполнение",
         theory: [
           "Matrix builds — запуск одного и того же пайплайна с разными параметрами (разные версии языка, ОС, браузеры). Jenkins автоматически создаёт комбинации и запускает их параллельно.",
           "Parallel stages — выполнение нескольких stages одновременно. Ускоряет пайплайн, если задачи независимы друг от друга.",
@@ -1171,7 +1621,7 @@ def call(Map config = [:]) {
                             }
                         }
                         steps {
-                            echo "Testing on Node \${NODE_VERSION} / \${OS}"
+                            echo "Testing Node \${NODE_VERSION} / \${OS}"
                             sh 'npm ci'
                             sh 'npm test'
                         }
@@ -1198,39 +1648,25 @@ def call(Map config = [:]) {
             failFast true
             parallel {
                 stage('Unit Tests') {
-                    steps {
-                        sh 'npm run test:unit'
-                    }
+                    steps { sh 'npm run test:unit' }
                     post {
-                        always {
-                            junit 'test-results/unit/*.xml'
-                        }
+                        always { junit 'test-results/unit/*.xml' }
                     }
                 }
                 stage('Integration Tests') {
-                    steps {
-                        sh 'npm run test:integration'
-                    }
+                    steps { sh 'npm run test:integration' }
                     post {
-                        always {
-                            junit 'test-results/integration/*.xml'
-                        }
+                        always { junit 'test-results/integration/*.xml' }
                     }
                 }
                 stage('E2E Tests') {
-                    steps {
-                        sh 'npm run test:e2e'
-                    }
+                    steps { sh 'npm run test:e2e' }
                     post {
-                        always {
-                            junit 'test-results/e2e/*.xml'
-                        }
+                        always { junit 'test-results/e2e/*.xml' }
                     }
                 }
                 stage('Security Scan') {
-                    steps {
-                        sh 'npm audit --audit-level=high'
-                    }
+                    steps { sh 'npm audit --audit-level=high' }
                 }
             }
         }
@@ -1240,14 +1676,13 @@ def call(Map config = [:]) {
         ],
         practice: [
           {
-            task: "Создайте Matrix Pipeline для тестирования Java-приложения на разных версиях JDK (11, 17, 21) и разных базах данных (PostgreSQL, MySQL). Добавьте failFast и таймаут.",
+            task: "Создайте Matrix Pipeline для тестирования Java-приложения на разных версиях JDK (11, 17, 21) и базах данных (PostgreSQL, MySQL). Добавьте failFast и таймаут.",
             hint: "Используйте matrix { axes { axis { } } } и options { timeout() }.",
             solution: `pipeline {
     agent none
 
     options {
         timeout(time: 45, unit: 'MINUTES')
-        timestamps()
     }
 
     stages {
@@ -1275,7 +1710,7 @@ def call(Map config = [:]) {
                             DB_TYPE = "\${DATABASE}"
                         }
                         steps {
-                            echo "Testing with JDK \${JDK_VERSION} + \${DATABASE}"
+                            echo "JDK \${JDK_VERSION} + \${DATABASE}"
                             sh './gradlew test -Ddb.type=\${DATABASE}'
                         }
                         post {
@@ -1301,10 +1736,13 @@ def call(Map config = [:]) {
       }
     ]
   },
+  // ═══════════════════════════════════════════
+  // МОДУЛЬ 6: Kubernetes и Jenkins
+  // ═══════════════════════════════════════════
   {
     id: "module-6",
     title: "Kubernetes и Jenkins",
-    description: "Jenkins на Kubernetes, динамические агенты, деплой в K8s",
+    description: "Jenkins на K8s, динамические агенты, деплой",
     icon: "☸️",
     lessons: [
       {
@@ -1321,67 +1759,6 @@ def call(Map config = [:]) {
         ],
         codeExamples: [
           {
-            title: "Helm values для Jenkins",
-            language: "yaml",
-            code: `# values.yaml для Jenkins Helm chart
-controller:
-  image:
-    repository: jenkins/jenkins
-    tag: lts
-  resources:
-    requests:
-      cpu: "500m"
-      memory: "1Gi"
-    limits:
-      cpu: "2000m"
-      memory: "4Gi"
-  persistence:
-    enabled: true
-    size: "20Gi"
-    storageClass: "standard"
-  installPlugins:
-    - kubernetes:latest
-    - workflow-aggregator:latest
-    - git:latest
-    - configuration-as-code:latest
-    - docker-workflow:latest
-  JCasC:
-    configScripts:
-      welcome-message: |
-        jenkins:
-          systemMessage: "Jenkins on Kubernetes - Managed by Helm"
-      kubernetes-agent: |
-        jenkins:
-          clouds:
-            - kubernetes:
-                name: "kubernetes"
-                namespace: "jenkins"
-                jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
-                templates:
-                  - name: "default-agent"
-                    label: "jenkins-agent"
-                    containers:
-                      - name: "jnlp"
-                        image: "jenkins/inbound-agent:latest"
-                        resourceRequestCpu: "500m"
-                        resourceLimitCpu: "1000m"
-                        resourceRequestMemory: "1Gi"
-                        resourceLimitMemory: "2Gi"
-                      - name: "docker"
-                        image: "docker:24-dind"
-                        privileged: true
-
-agent:
-  enabled: true
-  resources:
-    requests:
-      cpu: "500m"
-      memory: "512Mi"
-    limits:
-      cpu: "1000m"
-      memory: "1Gi"`
-          },
-          {
             title: "Pipeline с Kubernetes agent",
             language: "groovy",
             code: `pipeline {
@@ -1396,18 +1773,12 @@ spec:
       image: docker:24-dind
       securityContext:
         privileged: true
-      env:
-        - name: DOCKER_TLS_CERTDIR
-          value: ""
     - name: kubectl
       image: bitnami/kubectl:latest
       command: ['sleep', 'infinity']
     - name: helm
       image: alpine/helm:latest
       command: ['sleep', 'infinity']
-  volumes:
-    - name: docker-sock
-      emptyDir: {}
 """
         }
     }
@@ -1432,29 +1803,66 @@ spec:
                 }
             }
         }
-        stage('Verify Deployment') {
+        stage('Verify') {
             steps {
                 container('kubectl') {
                     sh """
                         kubectl rollout status deployment/myapp \\
                             -n production --timeout=300s
-                        kubectl get pods -n production -l app=myapp
                     """
                 }
             }
         }
     }
 }`
+          },
+          {
+            title: "Helm values для Jenkins",
+            language: "yaml",
+            code: `# values.yaml для Jenkins Helm chart
+controller:
+  image:
+    repository: jenkins/jenkins
+    tag: lts
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "1Gi"
+    limits:
+      cpu: "2000m"
+      memory: "4Gi"
+  persistence:
+    enabled: true
+    size: "20Gi"
+  installPlugins:
+    - kubernetes:latest
+    - workflow-aggregator:latest
+    - git:latest
+    - configuration-as-code:latest
+  JCasC:
+    configScripts:
+      welcome: |
+        jenkins:
+          systemMessage: "Jenkins on Kubernetes"
+
+agent:
+  enabled: true
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "512Mi"
+    limits:
+      cpu: "1000m"
+      memory: "1Gi"`
           }
         ],
         practice: [
           {
-            task: "Создайте Pipeline для деплоя в Kubernetes с использованием Helm. Включите: сборку Docker-образа, push в registry, helm upgrade, проверку rollout и rollback при неудаче.",
-            hint: "Используйте helm upgrade --install, kubectl rollout status и helm rollback.",
+            task: "Создайте Pipeline для деплоя в Kubernetes с Helm: сборка Docker-образа, push в registry, helm upgrade, проверка rollout и rollback при неудаче.",
+            hint: "Используйте container('helm') и container('kubectl'). Добавьте post { failure { } } для rollback.",
             solution: `pipeline {
     agent {
         kubernetes {
-            defaultContainer 'jnlp'
             yaml """
 apiVersion: v1
 kind: Pod
@@ -1478,7 +1886,6 @@ spec:
         APP_NAME = 'myapp'
         NAMESPACE = 'production'
         REGISTRY = 'registry.example.com'
-        CHART_PATH = './charts/myapp'
     }
 
     stages {
@@ -1496,12 +1903,10 @@ spec:
             steps {
                 container('helm') {
                     sh """
-                        helm upgrade --install \${APP_NAME} \${CHART_PATH} \\
+                        helm upgrade --install \${APP_NAME} ./chart \\
                             --namespace \${NAMESPACE} \\
-                            --set image.repository=\${REGISTRY}/\${APP_NAME} \\
                             --set image.tag=\${BUILD_NUMBER} \\
-                            --wait --timeout 5m \\
-                            --atomic
+                            --wait --timeout 5m --atomic
                     """
                 }
             }
@@ -1512,7 +1917,6 @@ spec:
                     sh """
                         kubectl rollout status deployment/\${APP_NAME} \\
                             -n \${NAMESPACE} --timeout=300s
-                        kubectl get pods -n \${NAMESPACE} -l app=\${APP_NAME}
                     """
                 }
             }
@@ -1522,10 +1926,7 @@ spec:
     post {
         failure {
             container('helm') {
-                sh """
-                    echo "Deployment failed! Rolling back..."
-                    helm rollback \${APP_NAME} --namespace \${NAMESPACE}
-                """
+                sh "helm rollback \${APP_NAME} -n \${NAMESPACE}"
             }
         }
     }
@@ -1540,19 +1941,693 @@ spec:
           "Helm для деплоя приложений в K8s",
           "Rollback при неудачном деплое"
         ]
+      },
+      {
+        id: "lesson-6-2",
+        title: "Helm и деплой в Kubernetes",
+        description: "Управление релизами через Helm charts",
+        theory: [
+          "Helm — пакетный менеджер для Kubernetes. Упрощает определение, установку и обновление приложений в K8s-кластере. Helm chart — набор шаблонов Kubernetes-манифестов.",
+          "Структура Helm chart: Chart.yaml (метаданные), values.yaml (значения по умолчанию), templates/ (шаблоны манифестов), charts/ (зависимости).",
+          "helm install — первая установка chart. helm upgrade — обновление существующего релиза. helm rollback — откат к предыдущей версии. helm uninstall — удаление релиза.",
+          "Values — параметры, которые подставляются в шаблоны. Можно переопределять через --set или дополнительные values-файлы. Позволяет использовать один chart для разных окружений.",
+          "helm upgrade --install — универсальная команда: устанавливает, если релиза нет, обновляет, если есть. --atomic — автоматический откат при неудаче.",
+          "Helm repositories — хранилища chart (stable, bitnami, jetstack). helm repo add — добавление репозитория, helm search — поиск chart."
+        ],
+        codeExamples: [
+          {
+            title: "Структура Helm chart",
+            language: "text",
+            code: `myapp-chart/
+├── Chart.yaml          # Метаданные chart
+├── values.yaml         # Значения по умолчанию
+├── values-staging.yaml # Override для staging
+├── values-prod.yaml    # Override для production
+├── templates/
+│   ├── _helpers.tpl    # Шаблонные функции
+│   ├── deployment.yaml # Deployment manifest
+│   ├── service.yaml    # Service manifest
+│   ├── ingress.yaml    # Ingress manifest
+│   ├── hpa.yaml        # HorizontalPodAutoscaler
+│   ├── configmap.yaml  # ConfigMap
+│   └── secret.yaml     # Secret
+└── charts/             # Зависимости
+    └── redis/          # Subchart`
+          },
+          {
+            title: "Helm deploy в Pipeline",
+            language: "groovy",
+            code: `pipeline {
+    agent { label 'k8s' }
+
+    environment {
+        APP = 'my-service'
+        NAMESPACE = 'production'
+        CHART = './charts/my-service'
+    }
+
+    stages {
+        stage('Helm Lint') {
+            steps {
+                sh "helm lint \${CHART}"
+            }
+        }
+        stage('Helm Template') {
+            steps {
+                sh """
+                    helm template \${APP} \${CHART} \\
+                        -f \${CHART}/values-prod.yaml \\
+                        --set image.tag=\${BUILD_NUMBER} \\
+                        > rendered-manifests.yaml
+                """
+                // Проверка сгенерированных манифестов
+                sh 'cat rendered-manifests.yaml'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh """
+                    helm upgrade --install \${APP} \${CHART} \\
+                        --namespace \${NAMESPACE} \\
+                        -f \${CHART}/values-prod.yaml \\
+                        --set image.tag=\${BUILD_NUMBER} \\
+                        --set image.repository=registry.example.com/\${APP} \\
+                        --wait --timeout 10m \\
+                        --atomic \\
+                        --history-max 10
+                """
+            }
+        }
+        stage('Verify') {
+            steps {
+                sh """
+                    kubectl rollout status deployment/\${APP} \\
+                        -n \${NAMESPACE} --timeout=300s
+                    kubectl get pods -n \${NAMESPACE} -l app=\${APP}
+                    helm history \${APP} -n \${NAMESPACE}
+                """
+            }
+        }
+    }
+}`
+          }
+        ],
+        practice: [
+          {
+            task: "Создайте Pipeline для Helm-деплоя: lint chart, template для проверки, deploy с override values для staging и production, верификация.",
+            hint: "Используйте helm lint, helm template, helm upgrade --install с разными values-файлами.",
+            solution: `pipeline {
+    agent { label 'k8s' }
+
+    environment {
+        APP = 'myapp'
+        CHART = './charts/myapp'
+    }
+
+    stages {
+        stage('Lint') {
+            steps { sh "helm lint \${CHART}" }
+        }
+        stage('Deploy Staging') {
+            when { expression { env.BRANCH_NAME == 'develop' } }
+            steps {
+                sh """
+                    helm upgrade --install \${APP} \${CHART} \\
+                        -n staging \\
+                        -f \${CHART}/values-staging.yaml \\
+                        --set image.tag=\${BUILD_NUMBER} \\
+                        --wait --atomic
+                """
+            }
+        }
+        stage('Deploy Production') {
+            when { expression { env.BRANCH_NAME == 'main' } }
+            steps {
+                input message: 'Deploy to production?'
+                sh """
+                    helm upgrade --install \${APP} \${CHART} \\
+                        -n production \\
+                        -f \${CHART}/values-prod.yaml \\
+                        --set image.tag=\${BUILD_NUMBER} \\
+                        --wait --atomic --history-max 10
+                """
+            }
+        }
+    }
+}`
+          }
+        ],
+        keyPoints: [
+          "Helm — пакетный менеджер для K8s",
+          "Chart — набор шаблонов манифестов",
+          "values.yaml — конфигурация через параметры",
+          "helm upgrade --install --atomic — безопасный деплой",
+          "Разные values-файлы для разных окружений",
+          "helm rollback — быстрый откат"
+        ]
       }
     ]
   },
+  // ═══════════════════════════════════════════
+  // МОДУЛЬ 7: Тестирование в Jenkins
+  // ═══════════════════════════════════════════
   {
     id: "module-7",
-    title: "Безопасность и мониторинг",
-    description: "SecOps, управление секретами, мониторинг Jenkins",
-    icon: "🔒",
+    title: "Тестирование в Jenkins",
+    description: "Unit, Integration, E2E тесты, SonarQube, отчёты",
+    icon: "🧪",
     lessons: [
       {
         id: "lesson-7-1",
-        title: "Безопасность Jenkins",
-        description: "Credentials, секреты, безопасность пайплайнов",
+        title: "Виды тестов в CI/CD",
+        description: "Unit, Integration, E2E тесты и их запуск в Jenkins",
+        theory: [
+          "Пирамида тестирования: Unit (много, быстрые) → Integration (средне) → E2E (мало, медленные). В CI/CD важно соблюдать баланс — чем выше уровень, тем дороже и медленнее тест.",
+          "Unit-тесты — проверка отдельных функций/методов. Быстрые (миллисекунды), изолированные (mock-зависимости). Запускаются при каждом коммите.",
+          "Integration-тесты — проверка взаимодействия компонентов (API + БД, сервисы между собой). Требуют инфраструктуру (Docker Compose). Запускаются при каждом PR.",
+          "E2E-тесты — проверка полного пользовательского сценария (браузер + API + БД). Медленные, хрупкие. Запускаются перед релизом или по ночам.",
+          "Jenkins Step: junit — публикация результатов JUnit-тестов. Плагин читает XML-отчёты и показывает статистику: сколько тестов прошло, упало, пропущено.",
+          "Coverage reports — отчёты о покрытии кода тестами. Публикуются через publishHTML плагин. Помогают отслеживать качество тестов."
+        ],
+        codeExamples: [
+          {
+            title: "Пайплайн с разными типами тестов",
+            language: "groovy",
+            code: `pipeline {
+    agent any
+
+    stages {
+        stage('Unit Tests') {
+            steps {
+                sh 'npm run test:unit -- --coverage'
+            }
+            post {
+                always {
+                    junit 'test-results/unit/*.xml'
+                    publishHTML([
+                        reportName: 'Unit Test Coverage',
+                        reportDir: 'coverage/unit/',
+                        reportFiles: 'index.html',
+                        allowMissing: true
+                    ])
+                }
+            }
+        }
+        stage('Integration Tests') {
+            steps {
+                sh '''
+                    docker-compose -f docker-compose.test.yml up -d
+                    npm run test:integration
+                '''
+            }
+            post {
+                always {
+                    junit 'test-results/integration/*.xml'
+                    sh 'docker-compose -f docker-compose.test.yml down -v || true'
+                }
+            }
+        }
+        stage('E2E Tests') {
+            when {
+                anyOf {
+                    branch 'main'
+                    branch 'release/*'
+                }
+            }
+            agent {
+                docker {
+                    image 'cypress/included:13.0.0'
+                }
+            }
+            steps {
+                sh 'cypress run --reporter junit'
+            }
+            post {
+                always {
+                    junit 'cypress/results/*.xml'
+                    archiveArtifacts artifacts: 'cypress/screenshots/**', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'cypress/videos/**', allowEmptyArchive: true
+                }
+            }
+        }
+    }
+}`
+          },
+          {
+            title: "SonarQube анализ",
+            language: "groovy",
+            code: `pipeline {
+    agent any
+
+    environment {
+        SONAR_SCANNER_HOME = tool 'SonarScanner'
+    }
+
+    stages {
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh """
+                        \${SONAR_SCANNER_HOME}/bin/sonar-scanner \\
+                            -Dsonar.projectKey=my-project \\
+                            -Dsonar.sources=src \\
+                            -Dsonar.tests=tests \\
+                            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \\
+                            -Dsonar.test.inclusions=**/*.test.js \\
+                            -Dsonar.exclusions=**/node_modules/**
+                    """
+                }
+            }
+        }
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+    }
+}`
+          }
+        ],
+        practice: [
+          {
+            task: "Создайте Pipeline с тремя типами тестов: Unit (всегда), Integration (с Docker Compose), E2E (только для main). Добавьте публикацию отчётов и coverage.",
+            hint: "Используйте junit для публикации тестов, publishHTML для coverage, when для условного запуска E2E.",
+            solution: `pipeline {
+    agent any
+
+    stages {
+        stage('Unit Tests') {
+            steps {
+                sh 'npm run test:unit -- --coverage'
+            }
+            post {
+                always {
+                    junit 'test-results/unit/*.xml'
+                    publishHTML([
+                        reportName: 'Coverage',
+                        reportDir: 'coverage/',
+                        reportFiles: 'index.html'
+                    ])
+                }
+            }
+        }
+        stage('Integration Tests') {
+            steps {
+                sh 'docker-compose -f docker-compose.test.yml up -d'
+                sh 'npm run test:integration'
+            }
+            post {
+                always {
+                    junit 'test-results/integration/*.xml'
+                    sh 'docker-compose down -v || true'
+                }
+            }
+        }
+        stage('E2E Tests') {
+            when { branch 'main' }
+            steps {
+                sh 'npx cypress run --reporter junit'
+            }
+            post {
+                always {
+                    junit 'cypress/results/*.xml'
+                    archiveArtifacts 'cypress/screenshots/**'
+                }
+            }
+        }
+    }
+}`
+          }
+        ],
+        keyPoints: [
+          "Пирамида тестов: Unit → Integration → E2E",
+          "junit — публикация результатов тестов",
+          "publishHTML — отчёты о покрытии",
+          "SonarQube — статический анализ кода",
+          "waitForQualityGate — проверка порога качества",
+          "archiveArtifacts — сохранение скриншотов/видео"
+        ]
+      },
+      {
+        id: "lesson-7-2",
+        title: "Безопасность и качество кода",
+        description: "Security scanning, linting, code quality",
+        theory: [
+          "Security scanning — автоматическая проверка кода на уязвимости. Включает: SAST (Static Application Security Testing), SCA (Software Composition Analysis), секретов в коде.",
+          "SAST — анализ исходного кода на уязвимости (SQL injection, XSS, hardcoded credentials). Инструменты: SonarQube, Semgrep, Checkmarx.",
+          "SCA — анализ зависимостей на известные уязвимости (CVE). Инструменты: npm audit, Snyk, OWASP Dependency-Check, Trivy.",
+          "Secret scanning — обнаружение случайно коммиченных секретов (пароли, API-ключи, токены). Инструменты: GitLeaks, TruffleHog, detect-secrets.",
+          "Docker image scanning — проверка Docker-образов на уязвимости в базовых образах и зависимостях. Инструменты: Trivy, Snyk Container, Anchore.",
+          "Linting — проверка стиля кода и потенциальных ошибок. ESLint (JS), Pylint (Python), Checkstyle (Java). Должен быть частью CI — блокирует merge при ошибках."
+        ],
+        codeExamples: [
+          {
+            title: "Security Pipeline",
+            language: "groovy",
+            code: `pipeline {
+    agent any
+
+    stages {
+        stage('Dependency Scan') {
+            steps {
+                // npm audit
+                sh 'npm audit --audit-level=high --production'
+                
+                // Или Snyk
+                sh '''
+                    snyk auth \${SNYK_TOKEN}
+                    snyk test --severity-threshold=high
+                '''
+            }
+        }
+        stage('Secret Scan') {
+            steps {
+                sh '''
+                    docker run --rm -v \\$(pwd):/code zricethezav/gitleaks \\
+                        detect --source /code --verbose --redact
+                '''
+            }
+        }
+        stage('SAST') {
+            steps {
+                sh '''
+                    docker run --rm -v \\$(pwd):/src returntocorp/semgrep \\
+                        --config=auto /src
+                '''
+            }
+        }
+        stage('Docker Image Scan') {
+            steps {
+                sh 'docker build -t myapp:\${BUILD_NUMBER} .'
+                sh '''
+                    trivy image \\
+                        --severity HIGH,CRITICAL \\
+                        --exit-code 1 \\
+                        --format table \\
+                        myapp:\${BUILD_NUMBER}
+                '''
+            }
+        }
+        stage('License Check') {
+            steps {
+                sh '''
+                    npx license-checker --summary --failOn "GPL-3.0;AGPL-3.0"
+                '''
+            }
+        }
+    }
+}`
+          }
+        ],
+        practice: [
+          {
+            task: "Создайте security pipeline: dependency scan (npm audit), secret scan (gitleaks), Docker image scan (trivy). Все сканы должны выполняться параллельно.",
+            hint: "Используйте parallel { } для одновременного запуска всех сканов.",
+            solution: `pipeline {
+    agent { label 'docker' }
+
+    stages {
+        stage('Security Scans') {
+            parallel {
+                stage('Dependency Scan') {
+                    steps {
+                        sh 'npm audit --audit-level=high'
+                    }
+                }
+                stage('Secret Scan') {
+                    steps {
+                        sh '''
+                            docker run --rm -v \\$(pwd):/code \\
+                                zricethezav/gitleaks detect \\
+                                --source /code --verbose
+                        '''
+                    }
+                }
+                stage('SAST') {
+                    steps {
+                        sh '''
+                            docker run --rm -v \\$(pwd):/src \\
+                                returntocorp/semgrep --config=auto /src
+                        '''
+                    }
+                }
+            }
+        }
+        stage('Docker Build & Scan') {
+            steps {
+                sh 'docker build -t myapp:\${BUILD_NUMBER} .'
+                sh '''
+                    trivy image \\
+                        --severity HIGH,CRITICAL \\
+                        --exit-code 1 \\
+                        myapp:\${BUILD_NUMBER}
+                '''
+            }
+        }
+    }
+}`
+          }
+        ],
+        keyPoints: [
+          "SAST — анализ кода на уязвимости",
+          "SCA — анализ зависимостей (npm audit, Snyk)",
+          "Secret scanning — поиск секретов (GitLeaks)",
+          "Docker scan — проверка образов (Trivy)",
+          "Параллельные сканы ускоряют pipeline",
+          "Блокировка при критических уязвимостях"
+        ]
+      }
+    ]
+  },
+  // ═══════════════════════════════════════════
+  // МОДУЛЬ 8: Уведомления
+  // ═══════════════════════════════════════════
+  {
+    id: "module-8",
+    title: "Уведомления и интеграции",
+    description: "Slack, Email, Telegram, интеграции с внешними сервисами",
+    icon: "🔔",
+    lessons: [
+      {
+        id: "lesson-8-1",
+        title: "Slack и Email уведомления",
+        description: "Настройка уведомлений о статусе сборок",
+        theory: [
+          "Уведомления — критически важная часть CI/CD. Команда должна знать о результатах сборок, особенно о неудачных. Jenkins поддерживает множество каналов уведомлений.",
+          "Slack Notification — самый популярный канал для DevOps-команд. Плагин Slack Notification или httpRequest к Slack webhook. Можно настраивать цвет, эмодзи, кнопки.",
+          "Email Extension — расширенный плагин для email-уведомлений. Поддерживает HTML-шаблоны, триггеры (always, failure, success), списки получателей.",
+          "Telegram Bot — уведомления через Telegram Bot API. Простой curl-запрос к api.telegram.org. Удобно для мобильных уведомлений.",
+          "Уведомления в post-блоке: always (всегда), success (успех), failure (неудача), unstable (нестабильно), changed (изменение статуса). Это позволяет гибко настраивать, когда отправлять.",
+          "Best practices: не спамить уведомлениями (только failure и changed), использовать цвета для быстрой идентификации, включать ссылки на build log."
+        ],
+        codeExamples: [
+          {
+            title: "Slack уведомления",
+            language: "groovy",
+            code: `pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps { sh 'npm run build' }
+        }
+    }
+
+    post {
+        success {
+            slackSend(
+                channel: '#deployments',
+                color: 'good',
+                message: """
+                    ✅ *Build Successful*
+                    *Job:* \${env.JOB_NAME}
+                    *Build:* #\${env.BUILD_NUMBER}
+                    *Branch:* \${env.BRANCH_NAME}
+                    *Duration:* \${currentBuild.durationString}
+                    *Link:* <\${env.BUILD_URL}|Open Build>
+                """.stripIndent()
+            )
+        }
+        failure {
+            slackSend(
+                channel: '#deployments',
+                color: 'danger',
+                message: """
+                    ❌ *Build Failed*
+                    *Job:* \${env.JOB_NAME}
+                    *Build:* #\${env.BUILD_NUMBER}
+                    *Branch:* \${env.BRANCH_NAME}
+                    *Error:* \${currentBuild.currentResult}
+                    *Link:* <\${env.BUILD_URL}|View Logs>
+                    cc: @channel
+                """.stripIndent()
+            )
+        }
+        unstable {
+            slackSend(
+                channel: '#deployments',
+                color: 'warning',
+                message: "⚠️ *Unstable:* \${env.JOB_NAME} #\${env.BUILD_NUMBER}"
+            )
+        }
+    }
+}`
+          },
+          {
+            title: "Telegram уведомления через HTTP",
+            language: "groovy",
+            code: `pipeline {
+    agent any
+
+    environment {
+        TELEGRAM_BOT_TOKEN = credentials('telegram-bot-token')
+        TELEGRAM_CHAT_ID = '-1001234567890'
+    }
+
+    stages {
+        stage('Build') {
+            steps { sh 'npm run build' }
+        }
+    }
+
+    post {
+        success {
+            script {
+                def message = """
+✅ Build Successful
+📦 \${env.JOB_NAME} #\${env.BUILD_NUMBER}
+🌿 \${env.BRANCH_NAME}
+⏱ \${currentBuild.durationString}
+                """.stripIndent()
+                
+                httpRequest(
+                    url: "https://api.telegram.org/bot\${TELEGRAM_BOT_TOKEN}/sendMessage",
+                    httpMode: 'POST',
+                    contentType: 'APPLICATION_JSON',
+                    requestBody: """
+                        {
+                            "chat_id": "\${TELEGRAM_CHAT_ID}",
+                            "text": "\${message}",
+                            "parse_mode": "HTML"
+                        }
+                    """
+                )
+            }
+        }
+        failure {
+            script {
+                def message = """
+❌ Build Failed!
+📦 \${env.JOB_NAME} #\${env.BUILD_NUMBER}
+🔗 \${env.BUILD_URL}console
+                """.stripIndent()
+                
+                sh """
+                    curl -s -X POST \\
+                        "https://api.telegram.org/bot\${TELEGRAM_BOT_TOKEN}/sendMessage" \\
+                        -H "Content-Type: application/json" \\
+                        -d '{
+                            "chat_id": "\${TELEGRAM_CHAT_ID}",
+                            "text": "\${message}"
+                        }'
+                """
+            }
+        }
+    }
+}`
+          }
+        ],
+        practice: [
+          {
+            task: "Создайте универсальную функцию notifyTeam.groovy (Shared Library), которая отправляет уведомления в Slack и Telegram одновременно. Функция должна принимать status, message и дополнительные параметры.",
+            hint: "Создайте файл vars/notifyTeam.groovy с def call(Map config). Внутри вызывайте slackSend и httpRequest для Telegram.",
+            solution: `// vars/notifyTeam.groovy
+def call(Map config = [:]) {
+    def status = config.status ?: 'UNKNOWN'
+    def message = config.message ?: ''
+    def jobName = env.JOB_NAME
+    def buildNumber = env.BUILD_NUMBER
+    def buildUrl = env.BUILD_URL
+    def branch = env.BRANCH_NAME ?: 'N/A'
+    
+    def emoji = [
+        'SUCCESS': '✅',
+        'FAILURE': '❌',
+        'UNSTABLE': '⚠️',
+        'ABORTED': '🛑'
+    ].getOrDefault(status, 'ℹ️')
+    
+    def color = [
+        'SUCCESS': 'good',
+        'FAILURE': 'danger',
+        'UNSTABLE': 'warning'
+    ].getOrDefault(status, '#808080')
+    
+    def fullMessage = """
+\${emoji} *\${status}*
+*Job:* \${jobName} #\${buildNumber}
+*Branch:* \${branch}
+*Message:* \${message}
+*Duration:* \${currentBuild.durationString}
+*Link:* <\${buildUrl}|View Build>
+    """.stripIndent()
+    
+    // Slack
+    try {
+        slackSend(
+            channel: config.slackChannel ?: '#ci-cd',
+            color: color,
+            message: fullMessage
+        )
+    } catch (Exception e) {
+        echo "Slack notification failed: \${e.message}"
+    }
+    
+    // Telegram
+    try {
+        withCredentials([string(credentialsId: 'telegram-bot-token', variable: 'TG_TOKEN')]) {
+            sh """
+                curl -s -X POST \\
+                    "https://api.telegram.org/bot\${TG_TOKEN}/sendMessage" \\
+                    -H "Content-Type: application/json" \\
+                    -d '{
+                        "chat_id": "\${config.telegramChatId ?: env.TELEGRAM_CHAT_ID}",
+                        "text": "\${emoji} \${status}\\n\${jobName} #\${buildNumber}\\n\${message}"
+                    }'
+            """
+        }
+    } catch (Exception e) {
+        echo "Telegram notification failed: \${e.message}"
+    }
+}`
+          }
+        ],
+        keyPoints: [
+          "slackSend — уведомления в Slack",
+          "httpRequest — универсальный HTTP-клиент",
+          "Telegram Bot API — мобильные уведомления",
+          "post { } — триггеры уведомлений",
+          "Цвета и эмодзи для быстрой идентификации",
+          "try/catch — уведомления не должны ломать пайплайн"
+        ]
+      }
+    ]
+  },
+  // ═══════════════════════════════════════════
+  // МОДУЛЬ 9: Безопасность
+  // ═══════════════════════════════════════════
+  {
+    id: "module-9",
+    title: "Безопасность Jenkins",
+    description: "Credentials, секреты, безопасность пайплайнов",
+    icon: "🔒",
+    lessons: [
+      {
+        id: "lesson-9-1",
+        title: "Управление секретами",
+        description: "Credentials, Vault, безопасные пайплайны",
         theory: [
           "Безопасность Jenkins включает: аутентификацию пользователей, авторизацию (права доступа), управление секретами, защиту от инъекций, аудит действий.",
           "Credentials — безопасное хранение секретов (пароли, токены, SSH-ключи, сертификаты). Jenkins шифрует их AES-128 и хранит в credentials.xml.",
@@ -1568,16 +2643,9 @@ spec:
             code: `pipeline {
     agent any
 
-    environment {
-        // Credentials подставляются автоматически
-        DB_PASSWORD = credentials('db-password-id')
-        DOCKER_CREDS = credentials('docker-registry-creds')
-    }
-
     stages {
         stage('Deploy') {
             steps {
-                // withCredentials для более гибкого использования
                 withCredentials([
                     usernamePassword(
                         credentialsId: 'deploy-creds',
@@ -1594,13 +2662,11 @@ spec:
                     )
                 ]) {
                     sh """
-                        # Секреты доступны как переменные
-                        # Но маскируются в логах (****)
+                        set +x  # Disable echo
                         curl -u "\${DEPLOY_USER}:\${DEPLOY_PASS}" \\
                             https://api.example.com/deploy
                         
-                        ssh -i "\${SSH_KEY_PATH}" user@server \\
-                            'deploy.sh'
+                        ssh -i "\${SSH_KEY_PATH}" user@server 'deploy.sh'
                     """
                 }
             }
@@ -1613,14 +2679,6 @@ spec:
             language: "groovy",
             code: `pipeline {
     agent any
-
-    options {
-        // Получение секретов из Vault
-        vaultConfiguration(
-            vaultUrl: 'https://vault.example.com',
-            vaultCredentialId: 'vault-token'
-        )
-    }
 
     stages {
         stage('Deploy with Vault Secrets') {
@@ -1639,72 +2697,10 @@ spec:
                     ]
                 ]) {
                     sh """
-                        echo "Connecting to database..."
-                        # \$DB_URL и \$API_KEY доступны здесь
-                        # и замаскированы в логах
+                        set +x
                         ./deploy-with-secrets.sh
                     """
                 }
-            }
-        }
-    }
-}`
-          },
-          {
-            title: "Безопасный Jenkinsfile — best practices",
-            language: "groovy",
-            code: `// ❌ ПЛОХО: хардкод секретов
-pipeline {
-    stages {
-        stage('Deploy') {
-            steps {
-                sh 'curl -u admin:password123 https://api.example.com'
-            }
-        }
-    }
-}
-
-// ✅ ХОРОШО: использование credentials
-pipeline {
-    environment {
-        API_CREDS = credentials('api-credentials')
-    }
-    stages {
-        stage('Deploy') {
-            steps {
-                sh 'curl -u "\${API_CREDS}" https://api.example.com'
-            }
-        }
-    }
-}
-
-// ✅ ХОРОШО: валидация входных данных
-pipeline {
-    parameters {
-        choice(
-            name: 'ENVIRONMENT',
-            choices: ['staging', 'production'],
-            description: 'Target environment'
-        )
-        string(
-            name: 'VERSION',
-            description: 'Version to deploy',
-            trim: true
-        )
-    }
-    stages {
-        stage('Validate') {
-            steps {
-                script {
-                    if (!params.VERSION?.matches(/^\\d+\\.\\d+\\.\\d+$/)) {
-                        error "Invalid version format: \${params.VERSION}"
-                    }
-                }
-            }
-        }
-        stage('Deploy') {
-            steps {
-                sh "./deploy.sh \${params.ENVIRONMENT} \${params.VERSION}"
             }
         }
     }
@@ -1714,33 +2710,33 @@ pipeline {
         practice: [
           {
             task: "Создайте Pipeline, который безопасно получает секреты из credentials, использует их для деплоя и гарантирует, что секреты не попадут в логи. Добавьте валидацию параметров.",
-            hint: "Используйте withCredentials() для безопасного использования и params для валидации входных данных.",
+            hint: "Используйте withCredentials() и set +x для отключения echo. Валидируйте параметры через expression.",
             solution: `pipeline {
     agent any
 
     parameters {
         choice(
-            name: 'ENVIRONMENT',
+            name: 'ENV',
             choices: ['staging', 'production'],
             description: 'Target environment'
         )
         string(
             name: 'VERSION',
-            description: 'Version to deploy (semver)',
+            description: 'Version (semver)',
             trim: true
         )
     }
 
     stages {
-        stage('Validate Parameters') {
+        stage('Validate') {
             steps {
                 script {
                     if (!params.VERSION?.matches(/^\\d+\\.\\d+\\.\\d+$/)) {
-                        error "Invalid version: \${params.VERSION}. Use semver (x.y.z)"
+                        error "Invalid version: \${params.VERSION}"
                     }
-                    if (params.ENVIRONMENT == 'production') {
-                        input message: "Deploy \${params.VERSION} to PRODUCTION?",
-                              ok: 'Yes, deploy'
+                    if (params.ENV == 'production') {
+                        input message: "Deploy to PRODUCTION?",
+                              submitter: 'admin,tech-lead'
                     }
                 }
             }
@@ -1749,18 +2745,18 @@ pipeline {
             steps {
                 withCredentials([
                     usernamePassword(
-                        credentialsId: "\${params.ENVIRONMENT}-deploy-creds",
-                        usernameVariable: 'DEPLOY_USER',
-                        passwordVariable: 'DEPLOY_PASS'
+                        credentialsId: "\${params.ENV}-creds",
+                        usernameVariable: 'USER',
+                        passwordVariable: 'PASS'
                     )
                 ]) {
                     sh """
-                        set +x  # Disable command echo
+                        set +x
                         ./deploy.sh \\
-                            --env \${params.ENVIRONMENT} \\
+                            --env \${params.ENV} \\
                             --version \${params.VERSION} \\
-                            --user "\${DEPLOY_USER}" \\
-                            --pass "\${DEPLOY_PASS}"
+                            --user "\${USER}" \\
+                            --pass "\${PASS}"
                     """
                 }
             }
@@ -1771,25 +2767,232 @@ pipeline {
         ],
         keyPoints: [
           "Никогда не хардкодите секреты в Jenkinsfile",
-          "credentials() и withCredentials() — безопасное использование",
-          "Vault/Secrets Manager — внешнее хранение секретов",
+          "withCredentials() — безопасное использование",
+          "Vault — внешнее хранение секретов",
+          "set +x — отключение echo для секретов",
           "Валидация параметров предотвращает ошибки",
-          "Audit Trail — логирование всех действий",
-          "Script Security — контроль опасных операций"
+          "Audit Trail — логирование всех действий"
         ]
       }
     ]
   },
+  // ═══════════════════════════════════════════
+  // МОДУЛЬ 10: Troubleshooting
+  // ═══════════════════════════════════════════
   {
-    id: "module-8",
+    id: "module-10",
+    title: "Troubleshooting и отладка",
+    description: "Диагностика проблем, отладка пайплайнов, логи",
+    icon: "🔍",
+    lessons: [
+      {
+        id: "lesson-10-1",
+        title: "Отладка пайплайнов",
+        description: "Типичные ошибки, debug-режим, логи",
+        theory: [
+          "Отладка Jenkins Pipeline — ключевой навык. Основные источники информации: console output (логи сборки), pipeline steps view (визуализация шагов), Blue Ocean UI.",
+          "Типичные ошибки: syntax error в Jenkinsfile (проверяйте через Replay), credential not found (проверьте ID credentials), agent not available (проверьте labels и статус агента).",
+          "Debug-режим: добавьте sh 'set -x' для вывода всех команд с аргументами. Используйте echo для вывода переменных. Pipeline: debug flags в Jenkins UI.",
+          "Replay — функция для быстрого повторного запуска пайплайна с изменённым Jenkinsfile. Не требует коммита — идеально для отладки.",
+          "Pipeline Syntax — встроенный генератор сниппетов (http://jenkins/pipeline-syntax/). Позволяет интерактивно собрать любой step и получить готовый код.",
+          "Логи Jenkins: /var/log/jenkins/jenkins.log (системные), console output каждого build (через UI). При проблемах с запуском — проверяйте системный лог."
+        ],
+        codeExamples: [
+          {
+            title: "Debug Pipeline",
+            language: "groovy",
+            code: `pipeline {
+    agent any
+
+    options {
+        // Включаем подробные логи
+        timestamps()
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
+
+    environment {
+        DEBUG = 'true'
+    }
+
+    stages {
+        stage('Debug Info') {
+            steps {
+                // Выводим всю полезную информацию
+                script {
+                    echo "=== Build Info ==="
+                    echo "Job: \${env.JOB_NAME}"
+                    echo "Build: #\${env.BUILD_NUMBER}"
+                    echo "Branch: \${env.BRANCH_NAME}"
+                    echo "Commit: \${env.GIT_COMMIT}"
+                    echo "Workspace: \${env.WORKSPACE}"
+                    echo "Node: \${env.NODE_NAME}"
+                    echo "Java: \${sh(script: 'java -version', returnStdout: true)}"
+                    echo "Docker: \${sh(script: 'docker --version', returnStdout: true)}"
+                    echo "Disk: \${sh(script: 'df -h', returnStdout: true)}"
+                    echo "Memory: \${sh(script: 'free -h', returnStdout: true)}"
+                }
+            }
+        }
+        stage('Build with Debug') {
+            steps {
+                // set -x выводит все команды
+                sh '''
+                    set -x
+                    set -e  # Exit on error
+                    
+                    echo "Starting build..."
+                    npm ci --verbose
+                    npm run build 2>&1 | tee build.log
+                '''
+            }
+        }
+        stage('Error Handling') {
+            steps {
+                script {
+                    try {
+                        sh 'risky-command.sh'
+                    } catch (Exception e) {
+                        echo "ERROR: \${e.message}"
+                        echo "Stack: \${e.stackTrace.join('\\n')}"
+                        
+                        // Сохраняем debug info
+                        sh 'env | sort > debug-env.txt'
+                        sh 'cat /var/log/syslog | tail -50 > debug-syslog.txt'
+                        
+                        archiveArtifacts 'debug-*.txt'
+                        
+                        // Решаем: продолжить или упасть
+                        error "Build failed: \${e.message}"
+                    }
+                }
+            }
+        }
+    }
+}`
+          },
+          {
+            title: "Частые ошибки и решения",
+            language: "text",
+            code: `═══════════════════════════════════════════════════════════════
+              ЧАСТЫЕ ОШИБКИ JENKINS И РЕШЕНИЯ
+═══════════════════════════════════════════════════════════════
+
+❌ "No such DSL method 'stageNamed'"
+   → Опечатка в названии директивы. Проверьте документацию.
+
+❌ "CredentialsId not found: xxx"
+   → Проверьте ID в Manage Jenkins → Credentials.
+   → Убедитесь, что credentials доступны для данного folder/project.
+
+❌ "No node matches label: xxx"
+   → Агент с таким label не подключен.
+   → Проверьте Manage Jenkins → Nodes.
+
+❌ "script not approved"
+   → Script Security блокирует опасную операцию.
+   → Manage Jenkins → In-process Script Approval → Approve.
+
+❌ "java.lang.OutOfMemoryError"
+   → Увеличьте heap: JAVA_OPTS="-Xmx2g"
+   → Уменьшите executors на контроллере.
+
+❌ "Timeout waiting for agent"
+   → Агент не может подключиться к контроллеру.
+   → Проверьте сеть, firewall, URL контроллера.
+
+❌ "Docker: permission denied"
+   → Jenkins user не в docker group.
+   → sudo usermod -aG docker jenkins
+
+❌ Pipeline не запускается после push
+   → Проверьте webhook URL и настройки.
+   → Проверьте credentials для доступа к репозиторию.
+   → Проверьте Jenkinsfile в корне репозитория.`
+          }
+        ],
+        practice: [
+          {
+            task: "Создайте debug-пайплайн, который: 1) Выводит всю информацию об окружении, 2) Запускает команду с try/catch, 3) При ошибке сохраняет debug-информацию и отправляет уведомление.",
+            hint: "Используйте env.*, sh для системной информации, try/catch для обработки ошибок, archiveArtifacts для сохранения логов.",
+            solution: `pipeline {
+    agent any
+
+    options { timestamps() }
+
+    stages {
+        stage('Environment Debug') {
+            steps {
+                script {
+                    echo "=== Environment ==="
+                    env.getEnvironment().each { k, v ->
+                        echo "\${k}=\${v}"
+                    }
+                    echo "=== System Info ==="
+                    sh 'uname -a'
+                    sh 'df -h'
+                    sh 'free -h'
+                    sh 'docker info 2>/dev/null || echo "Docker not available"'
+                }
+            }
+        }
+        stage('Risky Operation') {
+            steps {
+                script {
+                    try {
+                        sh 'set -x && ./build-and-deploy.sh'
+                    } catch (Exception e) {
+                        echo "❌ FAILED: \${e.message}"
+                        
+                        // Save debug info
+                        sh 'env | sort > debug-env.txt'
+                        sh 'dmesg | tail -20 > debug-dmesg.txt'
+                        sh 'docker system df > debug-docker.txt 2>&1'
+                        
+                        archiveArtifacts 'debug-*.txt'
+                        
+                        // Notify
+                        slackSend(
+                            channel: '#alerts',
+                            color: 'danger',
+                            message: 'Build failed: ' + e.message
+                        )
+                        error 'Pipeline failed'
+                        // notification sent \${e.message}\\n\\${env.BUILD_URL}"
+                        )
+                        
+                        error 'Pipeline failed'
+                    }
+                }
+            }
+        }
+    }
+}`
+          }
+        ],
+        keyPoints: [
+          "Replay — быстрый перезапуск с изменениями",
+          "set -x — вывод всех команд",
+          "try/catch — обработка ошибок",
+          "archiveArtifacts — сохранение debug-информации",
+          "Pipeline Syntax — генератор сниппетов",
+          "timestamps() — временные метки в логах"
+        ]
+      }
+    ]
+  },
+  // ═══════════════════════════════════════════
+  // МОДУЛЬ 11: DevOps Best Practices
+  // ═══════════════════════════════════════════
+  {
+    id: "module-11",
     title: "DevOps Best Practices",
-    description: "Полноценный CI/CD, GitOps, мониторинг, реальные сценарии",
+    description: "Production-ready пайплайны, GitOps, реальные сценарии",
     icon: "🏆",
     lessons: [
       {
-        id: "lesson-8-1",
-        title: "Полноценный CI/CD пайплайн",
-        description: "Production-ready пайплайн от коммита до продакшна",
+        id: "lesson-11-1",
+        title: "Production-ready CI/CD",
+        description: "Полноценный пайплайн от коммита до продакшна",
         theory: [
           "Production-ready пайплайн включает: линтинг, сборку, юнит-тесты, интеграционные тесты, security scan, сборку Docker-образа, деплой на staging, smoke-тесты, деплой на production, мониторинг.",
           "Git Flow / Trunk-Based Development — стратегии ветвления. Trunk-Based (короткоживущие ветки от main) лучше подходит для CI/CD, так как уменьшает конфликты и ускоряет интеграцию.",
@@ -1817,13 +3020,10 @@ pipeline {
     environment {
         REGISTRY = 'registry.example.com'
         APP_NAME = 'my-service'
-        HELM_CHART = './charts/my-service'
-        SLACK_CHANNEL = '#deployments'
     }
 
     parameters {
         choice(name: 'DEPLOY_ENV', choices: ['staging', 'production'])
-        booleanParam(name: 'SKIP_TESTS', defaultValue: false)
     }
 
     stages {
@@ -1832,164 +3032,86 @@ pipeline {
             steps {
                 checkout scm
                 script {
-                    env.GIT_COMMIT_SHORT = sh(
-                        script: 'git rev-parse --short HEAD',
-                        returnStdout: true
-                    ).trim()
-                    env.GIT_BRANCH = env.BRANCH_NAME
+                    env.COMMIT = sh(script:'git rev-parse --short HEAD',
+                        returnStdout:true).trim()
                 }
             }
         }
-
-        stage('Lint & Static Analysis') {
-            agent { docker { image 'sonarsource/sonar-scanner-cli:latest' } }
-            steps {
-                sh 'sonar-scanner -Dsonar.projectKey=\${APP_NAME}'
-            }
+        stage('Lint & Analysis') {
+            agent { docker { image 'sonarsource/sonar-scanner-cli' } }
+            steps { sh 'sonar-scanner' }
         }
-
-        stage('Build & Unit Tests') {
+        stage('Build & Test') {
             agent { docker { image 'node:18-alpine' } }
             steps {
                 sh 'npm ci'
                 sh 'npm run lint'
-                sh 'npm run test:unit -- --coverage'
+                sh 'npm test -- --coverage'
                 sh 'npm run build'
             }
             post {
                 always {
-                    junit 'test-results/unit/*.xml'
-                    publishHTML([
-                        reportName: 'Coverage',
-                        reportDir: 'coverage/',
-                        reportFiles: 'index.html'
-                    ])
+                    junit 'test-results/*.xml'
                 }
             }
         }
-
         stage('Security') {
+            agent { docker { image 'aquasec/trivy:latest' } }
             parallel {
                 stage('Dependency Scan') {
-                    agent { docker { image 'aquasec/trivy:latest' } }
-                    steps {
-                        sh 'trivy fs --severity HIGH,CRITICAL --exit-code 1 .'
-                    }
+                    steps { sh 'trivy fs --severity HIGH,CRITICAL .' }
                 }
                 stage('Secret Scan') {
-                    agent { docker { image 'zricethezav/gitleaks:latest' } }
-                    steps {
-                        sh 'gitleaks detect --source . --verbose'
-                    }
+                    steps { sh 'gitleaks detect --source .' }
                 }
             }
         }
-
-        stage('Docker Build & Push') {
+        stage('Docker') {
             agent { label 'docker' }
             steps {
                 script {
-                    def imageTag = "\${REGISTRY}/\${APP_NAME}:\${env.GIT_COMMIT_SHORT}"
-                    docker.build(imageTag, "--build-arg VERSION=\${env.GIT_COMMIT_SHORT} .")
-                    docker.withRegistry("https://\${REGISTRY}", 'registry-creds') {
-                        docker.image(imageTag).push()
-                        docker.image(imageTag).push('latest')
+                    def img = "\${REGISTRY}/\${APP_NAME}:\${env.COMMIT}"
+                    docker.build(img)
+                    sh "trivy image --severity HIGH,CRITICAL \${img}"
+                    docker.withRegistry("https://\${REGISTRY}", 'creds') {
+                        docker.image(img).push()
                     }
-                    // Scan Docker image
-                    sh "trivy image --severity HIGH,CRITICAL \${imageTag}"
                 }
             }
         }
-
-        stage('Deploy to Staging') {
-            when {
-                anyOf {
-                    branch 'main'
-                    branch 'develop'
-                }
-            }
-            agent {
-                kubernetes {
-                    yamlFile 'k8s/jenkins-agent.yaml'
-                }
-            }
+        stage('Deploy Staging') {
+            when { expression { params.DEPLOY_ENV == 'staging' || env.BRANCH_NAME == 'develop' } }
+            agent { kubernetes { yamlFile 'k8s/agent.yaml' } }
             steps {
                 container('helm') {
                     sh """
-                        helm upgrade --install \${APP_NAME} \${HELM_CHART} \\
+                        helm upgrade --install \${APP_NAME} ./chart \\
                             --namespace staging \\
-                            --set image.tag=\${env.GIT_COMMIT_SHORT} \\
-                            --set replicas=1 \\
-                            --wait --timeout 5m --atomic
+                            --set image.tag=\${env.COMMIT} \\
+                            --wait --atomic
                     """
                 }
             }
         }
-
         stage('Smoke Tests') {
-            when { branch 'main' }
-            agent { docker { image 'postman/newman:latest' } }
-            steps {
-                sh """
-                    newman run tests/smoke-tests.json \\
-                        --environment tests/staging-env.json \\
-                        --reporters cli,junit
-                """
-            }
+            when { expression { params.DEPLOY_ENV == 'production' } }
+            steps { sh 'newman run tests/smoke.json' }
         }
-
-        stage('Deploy to Production') {
-            when {
-                allOf {
-                    branch 'main'
-                    expression { params.DEPLOY_ENV == 'production' }
-                }
-            }
+        stage('Deploy Production') {
+            when { expression { params.DEPLOY_ENV == 'production' } }
             steps {
-                input message: "Deploy \${env.GIT_COMMIT_SHORT} to production?",
-                      ok: 'Deploy',
+                input message: "Deploy \${env.COMMIT} to production?",
                       submitter: 'admin,tech-lead'
             }
-            agent {
-                kubernetes {
-                    yamlFile 'k8s/jenkins-agent.yaml'
-                }
-            }
+            agent { kubernetes { yamlFile 'k8s/agent.yaml' } }
             steps {
                 container('helm') {
                     sh """
-                        helm upgrade --install \${APP_NAME} \${HELM_CHART} \\
+                        helm upgrade --install \${APP_NAME} ./chart \\
                             --namespace production \\
-                            --set image.tag=\${env.GIT_COMMIT_SHORT} \\
+                            --set image.tag=\${env.COMMIT} \\
                             --set replicas=3 \\
-                            --set strategy.rollingUpdate.maxSurge=1 \\
-                            --set strategy.rollingUpdate.maxUnavailable=0 \\
-                            --wait --timeout 10m --atomic
-                    """
-                }
-            }
-        }
-
-        stage('Post-Deploy Verification') {
-            when { branch 'main' }
-            steps {
-                script {
-                    // Wait for deployment to stabilize
-                    sleep(time: 30, unit: 'SECONDS')
-                    // Run health checks
-                    sh """
-                        for i in {1..5}; do
-                            STATUS=\\\$(curl -s -o /dev/null -w '%{http_code}' \\
-                                https://\${APP_NAME}.example.com/health)
-                            if [ "\\\$STATUS" = "200" ]; then
-                                echo "Health check passed!"
-                                exit 0
-                            fi
-                            echo "Attempt \\\$i: status \\\$STATUS"
-                            sleep 10
-                        done
-                        echo "Health check failed!"
-                        exit 1
+                            --wait --atomic --timeout 10m
                     """
                 }
             }
@@ -1997,35 +3119,11 @@ pipeline {
     }
 
     post {
-        always {
-            cleanWs()
-        }
         success {
-            script {
-                notifySlack(
-                    channel: "\${SLACK_CHANNEL}",
-                    status: 'SUCCESS',
-                    message: "✅ \${APP_NAME} \${env.GIT_COMMIT_SHORT} deployed to \${params.DEPLOY_ENV}"
-                )
-            }
+            notifyTeam(status: 'SUCCESS', message: "Deployed \${env.COMMIT}")
         }
         failure {
-            script {
-                notifySlack(
-                    channel: "\${SLACK_CHANNEL}",
-                    status: 'FAILURE',
-                    message: "❌ \${APP_NAME} build failed at \${currentBuild.currentResult}"
-                )
-            }
-        }
-        unstable {
-            script {
-                notifySlack(
-                    channel: "\${SLACK_CHANNEL}",
-                    status: 'UNSTABLE',
-                    message: "⚠️ \${APP_NAME} build unstable"
-                )
-            }
+            notifyTeam(status: 'FAILURE', message: "Failed at \${currentBuild.currentResult}")
         }
     }
 }`
@@ -2034,22 +3132,8 @@ pipeline {
         practice: [
           {
             task: "Спроектируйте полный CI/CD пайплайн для микросервиса. Определите этапы, стратегии тестирования, деплоя и отката. Напишите Jenkinsfile.",
-            hint: "Включите: lint, build, test (unit + integration), security scan, docker build, deploy staging, smoke test, deploy production, monitoring.",
+            hint: "Включите: lint, build, test, security, docker, deploy staging, smoke test, deploy production, monitoring.",
             solution: `// Полный CI/CD пайплайн для микросервиса
-// Этапы:
-// 1. Checkout + версионирование
-// 2. Lint + Static Analysis (SonarQube)
-// 3. Build + Unit Tests + Coverage
-// 4. Security (dependency scan + secret scan + image scan)
-// 5. Docker Build & Push
-// 6. Deploy to Staging (Helm)
-// 7. Integration Tests
-// 8. Smoke Tests
-// 9. Deploy to Production (canary → full rollout)
-// 10. Post-deploy verification + monitoring
-// 11. Notifications (Slack/Email)
-// 12. Rollback (при failure)
-
 pipeline {
     agent none
     options {
@@ -2062,7 +3146,8 @@ pipeline {
             steps {
                 checkout scm
                 script {
-                    env.COMMIT = sh(script:'git rev-parse --short HEAD', returnStdout:true).trim()
+                    env.COMMIT = sh(script:'git rev-parse --short HEAD',
+                        returnStdout:true).trim()
                 }
             }
         }
@@ -2072,33 +3157,34 @@ pipeline {
                 sh 'npm ci && npm run lint && npm test && npm run build'
             }
         }
+        stage('Security') {
+            agent { docker { image 'aquasec/trivy:latest' } }
+            steps { sh 'trivy fs --severity HIGH,CRITICAL .' }
+        }
         stage('Docker') {
             agent { label 'docker' }
             steps {
                 script {
                     docker.build("app:\${env.COMMIT}")
-                    sh "trivy image app:\${env.COMMIT}"
                     docker.withRegistry('https://registry.example.com', 'creds') {
                         docker.image("app:\${env.COMMIT}").push()
                     }
                 }
             }
         }
-        stage('Deploy & Verify') {
+        stage('Deploy') {
             agent { kubernetes { yamlFile 'k8s/agent.yaml' } }
             steps {
                 container('helm') {
                     sh 'helm upgrade --install app ./chart --set image.tag=\${COMMIT} --atomic --wait'
                 }
-                container('kubectl') {
-                    sh 'kubectl rollout status deployment/app --timeout=300s'
-                }
             }
         }
     }
     post {
-        failure { sh 'echo "ALERT: Build failed!"' }
-        success { sh 'echo "SUCCESS: Deployed!"' }
+        failure {
+            notifyTeam(status: 'FAILURE', message: 'Build failed!')
+        }
     }
 }`
           }
@@ -2113,9 +3199,9 @@ pipeline {
         ]
       },
       {
-        id: "lesson-8-2",
+        id: "lesson-11-2",
         title: "GitOps и Jenkins",
-        description: "GitOps подход, ArgoCD + Jenkins, declarative infrastructure",
+        description: "GitOps подход, ArgoCD + Jenkins",
         theory: [
           "GitOps — подход, при котором желаемое состояние инфраструктуры и приложений хранится в Git. Git является единственным источником истины (single source of truth).",
           "В GitOps-подходе Jenkins отвечает за CI (сборка, тесты, создание образов), а CD делегируется GitOps-инструментам (ArgoCD, Flux). Это разделение ответственности.",
@@ -2133,115 +3219,64 @@ pipeline {
 
     environment {
         APP_NAME = 'my-service'
-        MANIFESTS_REPO = 'https://github.com/org/k8s-manifests.git'
-        MANIFESTS_BRANCH = 'main'
+        MANIFESTS_REPO = 'git@github.com:org/k8s-manifests.git'
     }
 
     stages {
         stage('CI: Build & Test') {
             steps {
                 sh 'npm ci && npm test && npm run build'
-                sh 'docker build -t registry.example.com/\${APP_NAME}:\${BUILD_NUMBER} .'
-                sh 'docker push registry.example.com/\${APP_NAME}:\${BUILD_NUMBER}'
+                sh 'docker build -t registry/app:\${BUILD_NUMBER} .'
+                sh 'docker push registry/app:\${BUILD_NUMBER}'
             }
         }
-
         stage('CD: Update Manifests') {
             steps {
-                // Клонируем репозиторий с манифестами
                 sshagent(['git-ssh-key']) {
                     sh """
-                        git clone \${MANIFESTS_REPO} manifests-repo
-                        cd manifests-repo
-                        
-                        # Обновляем тег образа
+                        git clone \${MANIFESTS_REPO} manifests
+                        cd manifests
                         sed -i 's|tag:.*|tag: "\${BUILD_NUMBER}"|' \\
                             environments/staging/values.yaml
-                        
-                        # Создаём коммит и PR
                         git checkout -b update-\${APP_NAME}-\${BUILD_NUMBER}
                         git add .
                         git commit -m "chore: update \${APP_NAME} to \${BUILD_NUMBER}"
                         git push origin update-\${APP_NAME}-\${BUILD_NUMBER}
-                        
-                        # Создаём Pull Request (через GitHub CLI)
-                        gh pr create \\
-                            --title "Update \${APP_NAME} to \${BUILD_NUMBER}" \\
-                            --body "Automated update by Jenkins" \\
-                            --base main
+                        gh pr create --title "Update \${APP_NAME}" --body "Auto-update"
                     """
                 }
             }
         }
-
-        stage('Wait for ArgoCD Sync') {
+        stage('Wait for ArgoCD') {
             steps {
-                sh """
-                    # Ожидаем синхронизацию ArgoCD
-                    argocd app wait \${APP_NAME} \\
-                        --timeout 300 \\
-                        --health \\
-                        --sync
-                """
+                sh 'argocd app wait \${APP_NAME} --timeout 300 --health --sync'
             }
         }
     }
 }`
-          },
-          {
-            title: "ArgoCD Application manifest",
-            language: "yaml",
-            code: `# ArgoCD Application для my-service
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: my-service
-  namespace: argocd
-spec:
-  project: default
-  source:
-    repoURL: https://github.com/org/k8s-manifests.git
-    targetRevision: main
-    path: environments/production/my-service
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: production
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-    retry:
-      limit: 5
-      backoff:
-        duration: 5s
-        factor: 2
-        maxDuration: 3m
-  revisionHistoryLimit: 10`
           }
         ],
         practice: [
           {
-            task: "Опишите архитектуру CI/CD с использованием Jenkins + ArgoCD. Как будет происходить промоушн от staging до production? Какие преимущества даёт такой подход?",
-            hint: "Jenkins = CI (build, test, push image). ArgoCD = CD (sync manifests). Промоушн через PR в manifests repo.",
+            task: "Опишите архитектуру CI/CD с Jenkins + ArgoCD. Как происходит промоушн от staging до production?",
+            hint: "Jenkins = CI (build, test, push image). ArgoCD = CD (sync manifests). Промоушн через PR.",
             solution: `Архитектура Jenkins + ArgoCD:
 
-1. Developer pushes code → Jenkins triggers CI pipeline
-2. Jenkins: lint → test → build Docker image → push to registry
+1. Developer pushes code → Jenkins triggers CI
+2. Jenkins: lint → test → build image → push to registry
 3. Jenkins: updates image tag in k8s-manifests repo (creates PR)
 4. PR reviewed & merged → ArgoCD detects change
 5. ArgoCD syncs staging → smoke tests pass
-6. Jenkins creates PR for production manifests update
+6. Jenkins creates PR for production manifests
 7. Tech lead approves PR → ArgoCD syncs production
 8. ArgoCD health checks verify deployment
 
 Преимущества:
 - Полный аудит через Git history
 - Откат через git revert
-- Разделение CI (Jenkins) и CD (ArgoCD)
+- Разделение CI и CD
 - Нет прямого доступа к кластеру из Jenkins
-- Self-healing: ArgoCD автоматически исправляет дрейф`
+- Self-healing: ArgoCD исправляет drift`
           }
         ],
         keyPoints: [
@@ -2251,6 +3286,394 @@ spec:
           "ArgoCD автоматически синхронизирует кластер",
           "Полный аудит и быстрый откат",
           "Self-healing и drift detection"
+        ]
+      }
+    ]
+  },
+  // ═══════════════════════════════════════════
+  // МОДУЛЬ 12: Финальный проект
+  // ═══════════════════════════════════════════
+  {
+    id: "module-12",
+    title: "Финальный проект",
+    description: "Capstone project — создание полноценной CI/CD системы",
+    icon: "🎓",
+    lessons: [
+      {
+        id: "lesson-12-1",
+        title: "Capstone Project: Часть 1",
+        description: "Проектирование CI/CD системы для реального проекта",
+        theory: [
+          "Финальный проект — создание полноценной CI/CD системы для микросервисного приложения. Вы примените все знания, полученные в курсе.",
+          "Требования к проекту: автоматическая сборка при push, тестирование (unit + integration + e2e), security scanning, Docker-образ, деплой в Kubernetes, мониторинг, уведомления.",
+          "Архитектура решения: Jenkins controller + динамические K8s агенты, Git-репозиторий с Jenkinsfile, Helm chart для приложения, ArgoCD для GitOps.",
+          "Структура репозитория: src/ (код приложения), tests/ (тесты), charts/ (Helm chart), k8s/ (Kubernetes манифесты), Jenkinsfile, .github/ (шаблоны PR).",
+          "Критерии качества: пайплайн проходит за <15 минут, все тесты зелёные, нет критических уязвимостей, деплой автоматический на staging, ручной на production.",
+          "Документация: README.md с описанием проекта, архитектурой, инструкциями по запуску. Onboarding guide для новых разработчиков."
+        ],
+        codeExamples: [
+          {
+            title: "Структура проекта",
+            language: "text",
+            code: `my-microservice/
+├── src/                      # Исходный код
+│   ├── index.js
+│   ├── routes/
+│   ├── services/
+│   └── middleware/
+├── tests/
+│   ├── unit/                 # Unit тесты
+│   ├── integration/          # Integration тесты
+│   └── e2e/                  # E2E тесты
+├── charts/                   # Helm chart
+│   └── my-service/
+│       ├── Chart.yaml
+│       ├── values.yaml
+│       ├── values-staging.yaml
+│       ├── values-production.yaml
+│       └── templates/
+│           ├── deployment.yaml
+│           ├── service.yaml
+│           ├── ingress.yaml
+│           └── hpa.yaml
+├── k8s/                      # K8s manifests
+│   └── jenkins-agent.yaml
+├── docker/
+│   ├── Dockerfile
+│   └── Dockerfile.dev
+├── Jenkinsfile               # CI/CD Pipeline
+├── .sonarcloud.properties    # SonarQube config
+├── docker-compose.yml        # Local development
+├── docker-compose.test.yml   # Test environment
+├── package.json
+└── README.md`
+          },
+          {
+            title: "Полный Jenkinsfile",
+            language: "groovy",
+            code: `@Library('company-pipeline@v3.0') _
+
+pipeline {
+    agent none
+
+    options {
+        timeout(time: 45, unit: 'MINUTES')
+        timestamps()
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: '30'))
+    }
+
+    environment {
+        REGISTRY = 'registry.company.com'
+        APP_NAME = 'my-service'
+        HELM_CHART = './charts/my-service'
+        SONAR_PROJECT = 'company_my-service'
+    }
+
+    parameters {
+        choice(name: 'TARGET_ENV', choices: ['staging', 'production'])
+        booleanParam(name: 'SKIP_E2E', defaultValue: false,
+            description: 'Skip E2E tests')
+    }
+
+    stages {
+        stage('Initialize') {
+            agent { label 'jenkins-agent' }
+            steps {
+                checkout scm
+                script {
+                    env.COMMIT = sh(script: 'git rev-parse --short HEAD',
+                        returnStdout: true).trim()
+                    env.TAG = "\${env.COMMIT}"
+                    env.IMAGE = "\${REGISTRY}/\${APP_NAME}:\${env.TAG}"
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            parallel {
+                stage('Lint') {
+                    agent { docker { image 'node:18-alpine' } }
+                    steps {
+                        sh 'npm ci'
+                        sh 'npm run lint'
+                    }
+                }
+                stage('SonarQube') {
+                    agent { docker { image 'sonarsource/sonar-scanner-cli' } }
+                    steps {
+                        withSonarQubeEnv('SonarCloud') {
+                            sh "sonar-scanner -Dsonar.projectKey=\${SONAR_PROJECT}"
+                        }
+                    }
+                }
+                stage('Security Scan') {
+                    agent { docker { image 'aquasec/trivy:latest' } }
+                    steps {
+                        sh 'trivy fs --severity HIGH,CRITICAL --exit-code 1 .'
+                    }
+                }
+            }
+        }
+
+        stage('Test') {
+            parallel {
+                stage('Unit Tests') {
+                    agent { docker { image 'node:18-alpine' } }
+                    steps {
+                        sh 'npm ci'
+                        sh 'npm run test:unit -- --coverage'
+                    }
+                    post {
+                        always {
+                            junit 'coverage/test-results/unit/*.xml'
+                            publishHTML target: [
+                                reportName: 'Coverage Report',
+                                reportDir: 'coverage/lcov-report',
+                                reportFiles: 'index.html'
+                            ]
+                        }
+                    }
+                }
+                stage('Integration Tests') {
+                    agent { label 'docker' }
+                    steps {
+                        sh 'docker-compose -f docker-compose.test.yml up -d'
+                        sh 'npm ci && npm run test:integration'
+                    }
+                    post {
+                        always {
+                            junit 'test-results/integration/*.xml'
+                            sh 'docker-compose -f docker-compose.test.yml down -v || true'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('E2E Tests') {
+            when {
+                allOf {
+                    expression { !params.SKIP_E2E }
+                    anyOf {
+                        branch 'main'
+                        branch 'release/*'
+                    }
+                }
+            }
+            agent { docker { image 'cypress/included:13.0.0' } }
+            steps {
+                sh 'cypress run --reporter junit --reporter-options "mochaFile=results/e2e.xml"'
+            }
+            post {
+                always {
+                    junit 'results/e2e.xml'
+                    archiveArtifacts artifacts: 'cypress/screenshots/**',
+                        allowEmptyArchive: true
+                }
+            }
+        }
+
+        stage('Quality Gate Check') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+        stage('Docker Build & Push') {
+            agent { label 'docker' }
+            steps {
+                script {
+                    docker.build("\${IMAGE}", "--build-arg VERSION=\${TAG} .")
+                    sh "trivy image --severity HIGH,CRITICAL --exit-code 1 \${IMAGE}"
+                    docker.withRegistry("https://\${REGISTRY}", 'registry-creds') {
+                        docker.image("\${IMAGE}").push()
+                        docker.image("\${IMAGE}").push('latest')
+                    }
+                }
+            }
+        }
+
+        stage('Deploy Staging') {
+            when {
+                anyOf {
+                    branch 'main'
+                    branch 'develop'
+                    expression { params.TARGET_ENV == 'staging' }
+                }
+            }
+            agent { kubernetes { yamlFile 'k8s/jenkins-agent.yaml' } }
+            steps {
+                container('helm') {
+                    sh """
+                        helm upgrade --install \${APP_NAME} \${HELM_CHART} \\
+                            --namespace staging \\
+                            -f \${HELM_CHART}/values-staging.yaml \\
+                            --set image.repository=\${REGISTRY}/\${APP_NAME} \\
+                            --set image.tag=\${TAG} \\
+                            --wait --timeout 5m --atomic
+                    """
+                }
+            }
+        }
+
+        stage('Smoke Tests') {
+            when { branch 'main' }
+            steps {
+                sh """
+                    sleep 10
+                    curl -sf https://staging.company.com/health | jq .
+                """
+            }
+        }
+
+        stage('Deploy Production') {
+            when {
+                allOf {
+                    branch 'main'
+                    expression { params.TARGET_ENV == 'production' }
+                }
+            }
+            steps {
+                input message: """
+                    🚀 PRODUCTION DEPLOYMENT
+                    Image: \${IMAGE}
+                    Commit: \${COMMIT}
+                    Approve deployment?
+                """, ok: 'Deploy', submitter: 'admin,tech-lead'
+            }
+            agent { kubernetes { yamlFile 'k8s/jenkins-agent.yaml' } }
+            steps {
+                container('helm') {
+                    sh """
+                        helm upgrade --install \${APP_NAME} \${HELM_CHART} \\
+                            --namespace production \\
+                            -f \${HELM_CHART}/values-production.yaml \\
+                            --set image.repository=\${REGISTRY}/\${APP_NAME} \\
+                            --set image.tag=\${TAG} \\
+                            --set replicas=3 \\
+                            --wait --timeout 10m --atomic
+                    """
+                }
+            }
+        }
+
+        stage('Post-Deploy Verification') {
+            when { branch 'main' }
+            steps {
+                script {
+                    sleep(time: 30, unit: 'SECONDS')
+                    sh """
+                        for i in 1 2 3 4 5; do
+                            STATUS=\\\$(curl -s -o /dev/null -w '%{http_code}' \\
+                                https://app.company.com/health)
+                            [ "\\\$STATUS" = "200" ] && echo "✅ Health OK" && exit 0
+                            echo "Attempt \\\$i: status \\\$STATUS"
+                            sleep 10
+                        done
+                        exit 1
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always { cleanWs() }
+        success {
+            notifyTeam(
+                status: 'SUCCESS',
+                message: "\${APP_NAME} \${env.TAG} deployed to \${params.TARGET_ENV}",
+                slackChannel: '#deployments'
+            )
+        }
+        failure {
+            notifyTeam(
+                status: 'FAILURE',
+                message: "\${APP_NAME} failed at: \${currentBuild.currentResult}",
+                slackChannel: '#alerts'
+            )
+        }
+    }
+}`
+          }
+        ],
+        practice: [
+          {
+            task: "Создайте полный CI/CD пайплайн для вашего проекта (или учебного). Включите все этапы: lint, test, security, docker, deploy, verification, notifications. Используйте все изученные практики.",
+            hint: "Начните с простого, затем добавляйте этапы. Используйте Shared Library для переиспользования. Тестируйте через Replay.",
+            solution: `// Минимальный production-ready пайплайн
+@Library('shared-lib@v1.0') _
+
+pipeline {
+    agent none
+    options {
+        timeout(time: 30, unit: 'MINUTES')
+        timestamps()
+    }
+    environment {
+        IMAGE = "registry.io/app:\${env.BUILD_NUMBER}"
+    }
+    stages {
+        stage('Build & Test') {
+            agent { docker { image 'node:18-alpine' } }
+            steps {
+                checkout scm
+                sh 'npm ci && npm run lint && npm test && npm run build'
+            }
+        }
+        stage('Security') {
+            agent { docker { image 'aquasec/trivy:latest' } }
+            steps { sh 'trivy fs --severity HIGH,CRITICAL .' }
+        }
+        stage('Docker') {
+            agent { label 'docker' }
+            steps {
+                script {
+                    docker.build("\${IMAGE}")
+                    sh "trivy image --exit-code 1 \${IMAGE}"
+                    docker.withRegistry('https://registry.io', 'creds') {
+                        docker.image("\${IMAGE}").push()
+                    }
+                }
+            }
+        }
+        stage('Deploy') {
+            agent { kubernetes { yamlFile 'k8s/agent.yaml' } }
+            steps {
+                container('helm') {
+                    sh 'helm upgrade --install app ./chart --set image.tag=\${BUILD_NUMBER} --atomic --wait'
+                }
+            }
+        }
+    }
+    post {
+        success { notifyTeam(status: 'SUCCESS') }
+        failure { notifyTeam(status: 'FAILURE') }
+    }
+}
+
+// Чеклист:
+// ✅ Lint + форматирование
+// ✅ Unit + Integration тесты
+// ✅ Security scanning (deps + secrets + image)
+// ✅ Docker build + push
+// ✅ Deploy с Helm
+// ✅ Health check после деплоя
+// ✅ Уведомления
+// ✅ Rollback при неудаче (--atomic)
+// ✅ Build history cleanup`
+          }
+        ],
+        keyPoints: [
+          "Полный цикл: code → test → build → deploy → verify",
+          "Shared Library для переиспользования",
+          "Параллельные stages для скорости",
+          "Security на каждом этапе",
+          "Автоматический rollback (--atomic)",
+          "Уведомления и мониторинг"
         ]
       }
     ]
